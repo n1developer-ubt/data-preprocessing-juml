@@ -4,7 +4,8 @@ export normalize
 
 # normalize the data
 function normalize(data)
-    return (data .- mean(data, dims=1)) ./ std(data, dims=1)
+    #return (data .- mean(data, dims=1)) ./ std(data, dims=1)
+    return data
 end
 
 end
