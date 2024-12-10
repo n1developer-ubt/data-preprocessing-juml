@@ -34,7 +34,7 @@ end
     # Returns
     The fitted `StandardScaler`.
 """
-function fit!(scaler::StandardScaler, X::Matrix{<:Number})
+function fit!(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
     # Calculate mean and std for each feature, and convert matrix to vector
     scaler.mean = mean(X, dims=1)[:]
     scaler.std = std(X, dims=1, corrected=false)[:]
@@ -53,7 +53,7 @@ end
     # Returns
     The fitted `StandardScaler`.
 """
-function fit!(scaler::StandardScaler, X::Vector{<:Number})
+function fit!(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
     scaler.mean = mean(X)
     scaler.std = std(X, corrected=false)
     return scaler
@@ -71,7 +71,7 @@ end
     # Returns
     The transformed data.
 """
-function transform(scaler::StandardScaler, X::Matrix{<:Number})
+function transform(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
     if(isnothing(scaler.mean) || isnothing(scaler.std))
         throw(ArgumentError("Scaler not fitted yet"))
     end
@@ -94,7 +94,7 @@ end
     # Returns
     The transformed data.
 """
-function transform(scaler::StandardScaler, X::Vector{<:Number})
+function transform(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
     if(isnothing(scaler.mean) || isnothing(scaler.std))
         throw(ArgumentError("Scaler not fitted yet"))
     end
@@ -158,7 +158,7 @@ end
     # Returns
     The transformed data.
 """
-function fit_transform!(scaler::StandardScaler, X::Matrix{<:Number})
+function fit_transform!(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
     fit!(scaler, X)
     return transform(scaler, X)
 end
@@ -175,7 +175,7 @@ end
     # Returns
     The transformed data.
 """
-function fit_transform!(scaler::StandardScaler, X::Vector{<:Number})
+function fit_transform!(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
     fit!(scaler, X)
     return transform(scaler, X)
 end
