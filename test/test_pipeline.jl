@@ -1,21 +1,25 @@
-using Test
-using PreprocessingLib.Pipeline
 
 @testset "Pipeline Tests" begin
-    stage1 = x -> x .+ 1
-    stage2 = x -> x .* 2
+    X = rand(100, 5)
 
-    # Create a pipeline
-    pipeline = Pipeline(stage1, stage2)
+    # Create pipeline with steps
+    pipeline = make_pipeline("scaler" => NoScaler())
 
-    # Input data
-    data = [1, 2, 3, 4, 5]
+    # Fit the pipeline
+    fit!(pipeline, X)
+    @test pipeline.n_features_in_ == 5
+    @test length(pipeline.feature_names_in_) == 5
 
-    # Apply the pipeline
-    result = fit_transform!(pipeline, data)
+    # Transform the data
+    X_transformed = transform(pipeline, X)
+    @test size(X_transformed) == size(X)
 
-    # Expected result
-    expected = (data .+ 1) .* 2
+    # Fit and transform the data
+    X_fit_transformed = fit_transform!(pipeline, X)
+    @test size(X_fit_transformed) == size(X)
 
-    @test result == expected
+    # Add an additional step
+    add_step!(pipeline, "scaler2", NoScaler())
+    fit!(pipeline, X)
+    @test length(pipeline.named_steps) == 2
 end

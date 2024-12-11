@@ -1,7 +1,7 @@
-#authors
-authors = ["Usama Bin Tariq <usama.bin.tariq@campus.tu-berlin.de>"]
 name = "PreprocessingPipeline"
-# version
+uuid = "f3b207a7-3b3b-4b3b-8b3b-3b3b3b3b3b3b"
+authors = ["Usama Bin Tariq <usama.bin.tariq@campus.tu-berlin.de>"]
 version = "0.1.0"
 
-uuid = "f3b207a7-3b3b-4b3b-8b3b-3b3b3b3b3b3b"
+[deps]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
