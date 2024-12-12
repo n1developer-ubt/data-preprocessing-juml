@@ -1,32 +1,50 @@
 module MissingValue
 
-export handle_missing_value
+using ..TransformerModule: Transformer
+# using Statistics: mean
 
-function handle_missing_value(data; strategy="drop")
-    # Check if data is empty
-    if isempty(data)
-        return data
-    end
+export MissingValueTransformer
+
+mutable struct MissingValueTransformer <: Transformer
+    strategy::String
+    mean_values::Vector{Float64}
     
-    
-    if strategy == "drop"
-        # Drop missing values
-        return filter(!ismissing, data)
-
-
-    elseif strategy == "mean"
-        # Calculate mean of non-missing values
-        valid_values = filter(!ismissing, data)
-        if isempty(valid_values)
-            return Float64[]
+    function MissingValueTransformer(strategy::String="drop")
+        if !(strategy in ["drop", "mean"])
+            throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'drop', 'mean'"))
         end
-        mean_value = sum(valid_values) / length(valid_values)
-        # Replace missing values with mean
-        return map(x -> ismissing(x) ? mean_value : x, data)
+        new(strategy, Float64[])
+    end
+end
 
 
-    else
-        throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'drop', 'mean'"))
+function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+    if transformer.strategy == "mean"
+        transformer.mean_values = vec([mean(skipmissing(col)) for col in eachcol(X)])
+    end
+    return transformer
+end
+
+
+function transform(transformer::MissingValueTransformer, X::Matrix{Any})
+    if isempty(X)
+        return X
+    end
+
+    if transformer.strategy == "drop"
+        valid_rows = .!vec(any(ismissing, X, dims=2))
+        return X[valid_rows, :]
+
+    elseif transformer.strategy == "mean"
+        result = copy(X)
+        for (col_idx, col) in enumerate(eachcol(result))
+            missing_mask = ismissing.(col)
+            if any(missing_mask)
+                col[missing_mask] .= transformer.mean_values[col_idx]
+            end
+        end
+        return result
+
     end
 end
 

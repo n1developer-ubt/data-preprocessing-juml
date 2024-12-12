@@ -12,13 +12,13 @@ using .TransformerModule
 using .PipelineModule
 using .FeatureExtraction: extract_feature
 using .Preprocessing: normalize
-using .MissingValue: handle_missing_value
+using .MissingValue
 
 
 # export modules
 export Pipeline, make_pipeline, fit!, Transformer, AddTransformer, transform, predict, fit_transform!, add_step!,
 extract_feature,
 normalize,
-handle_missing_value
+MissingValueTransformer
 
 end
