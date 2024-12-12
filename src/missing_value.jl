@@ -1,9 +1,9 @@
 module MissingValue
 
 using ..TransformerModule: Transformer
-# using Statistics: mean
 
 export MissingValueTransformer
+
 
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
@@ -17,14 +17,12 @@ mutable struct MissingValueTransformer <: Transformer
     end
 end
 
-
 function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
     if transformer.strategy == "mean"
-        transformer.mean_values = vec([mean(skipmissing(col)) for col in eachcol(X)])
+        transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
     return transformer
 end
-
 
 function transform(transformer::MissingValueTransformer, X::Matrix{Any})
     if isempty(X)
@@ -44,8 +42,14 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
             end
         end
         return result
-
     end
 end
+
+
+function calculate_mean(col)
+    values = filter(!ismissing, col)
+    isempty(values) ? 0.0 : sum(values) / length(values)
+end
+
 
 end
