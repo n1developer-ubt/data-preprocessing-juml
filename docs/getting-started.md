@@ -18,7 +18,6 @@ The pipeline consists of a series of transformers. Each transformer has a `fit!`
    ```julia
     data = [1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing]
     
-    # Test mean strategy in pipeline
     pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
 
     fit!(pipeline, data)
@@ -30,7 +29,6 @@ The pipeline consists of a series of transformers. Each transformer has a `fit!`
 You can chain multiple transformers in a pipeline:
 
    ```julia
-    # Test mean strategy in pipeline
     pipeline = make_pipeline("missing_handler" => MissingValueTransformer("drop"))
     add_step!(pipeline, "standard_scaler" => StandardScaler())
     add_step!(pipeline, "minmax_scaler" => MinMaxScaler())
