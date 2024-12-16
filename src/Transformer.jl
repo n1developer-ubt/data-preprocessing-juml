@@ -17,9 +17,14 @@ for any concrete subtype of `Transformer`.
 # Returns
 The fitted transformer.
 """
-function fit!(transformer::Transformer, X::Matrix{Any})
+function fit!(transformer::Transformer, X::Matrix)
     throw(MethodError(fit!, (transformer, X)))
 end
+
+function fit!(transformer::Transformer, X::Vector)
+    throw(MethodError(fit!, (transformer, X)))
+end
+
 
 """
     transform(transformer::Transformer, X::Matrix{Any})
@@ -34,8 +39,13 @@ This method should be implemented for any concrete subtype of `Transformer`.
 # Returns
 A transformed version of `X`.
 """
-function transform(transformer::Transformer, X::Matrix{Any})
+function transform(transformer::Transformer, X::Matrix)
     throw(MethodError(transform, (transformer, X)))
 end
+
+function transform(transformer::Transformer, X::Vector)
+    throw(MethodError(transform, (transformer, X)))
+end
+
 
 end # module

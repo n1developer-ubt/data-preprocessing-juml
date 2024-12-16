@@ -72,7 +72,20 @@ transformers in `pipeline.named_steps` with the results of their `fit!` method.
 # Returns
 The updated pipeline.
 """
-function fit!(pipeline::Pipeline, X::Matrix{Any})
+function fit!(pipeline::Pipeline, X::Matrix)
+    pipeline.n_features_in_ = size(X, 2)
+    pipeline.feature_names_in_ = ["feature_$i" for i in 1:size(X, 2)]
+
+    # Sequentially fit each step, updating the pipeline's references if necessary
+    for (name, step) in pipeline.named_steps
+        fitted_step = fit!(step, X)
+        pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
+    end
+
+    return pipeline
+end
+
+function fit!(pipeline::Pipeline, X::Vector)
     pipeline.n_features_in_ = size(X, 2)
     pipeline.feature_names_in_ = ["feature_$i" for i in 1:size(X, 2)]
 
@@ -98,7 +111,15 @@ Transform the input data using the pipeline by applying each step sequentially.
 # Returns
 Transformed data matrix.
 """
-function transform(pipeline::Pipeline, X::Matrix{Any})
+function transform(pipeline::Pipeline, X::Matrix)
+    X_transformed = copy(X)
+    for (name, step) in pipeline.named_steps
+        X_transformed = transform(step, X_transformed)
+    end
+    return X_transformed
+end
+
+function transform(pipeline::Pipeline, X::Vector)
     X_transformed = copy(X)
     for (name, step) in pipeline.named_steps
         X_transformed = transform(step, X_transformed)
@@ -108,7 +129,7 @@ end
 
 
 """
-    fit_transform!(pipeline::Pipeline, X::Matrix{Any})
+    fit_transform!(pipeline::Pipeline, X::Matrix)
 
 Fit the pipeline to the data and transform it in one step.
 
@@ -119,7 +140,12 @@ Fit the pipeline to the data and transform it in one step.
 # Returns
 Transformed data matrix.
 """
-function fit_transform!(pipeline::Pipeline, X::Matrix{Any})
+function fit_transform!(pipeline::Pipeline, X::Matrix)
+    fit!(pipeline, X)
+    return transform(pipeline, X)
+end
+
+function fit_transform!(pipeline::Pipeline, X::Vector)
     fit!(pipeline, X)
     return transform(pipeline, X)
 end

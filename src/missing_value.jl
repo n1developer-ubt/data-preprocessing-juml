@@ -4,7 +4,14 @@ export MissingValueTransformer
 
 import ..TransformerModule: Transformer, fit!, transform
 
+"""
+    MissingValueTransformer(strategy::String="drop", constant_value::Any=nothing)
 
+Transformer for handling missing values using different strategies:
+- "drop": Remove rows with missing values
+- "mean": Replace with column means
+- "constant": Replace with specified value
+"""
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
     mean_values::Vector{Float64}
@@ -21,12 +28,14 @@ mutable struct MissingValueTransformer <: Transformer
     end
 end
 
+
 function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
     return transformer
 end
+
 
 function transform(transformer::MissingValueTransformer, X::Matrix{Any})
     if isempty(X)
