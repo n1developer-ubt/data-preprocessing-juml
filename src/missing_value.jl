@@ -8,12 +8,16 @@ import ..TransformerModule: Transformer, fit!, transform
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
     mean_values::Vector{Float64}
+    constant_value::Any
     
-    function MissingValueTransformer(strategy::String="drop")
-        if !(strategy in ["drop", "mean"])
-            throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'drop', 'mean'"))
+    function MissingValueTransformer(strategy::String="drop", constant_value::Any=nothing)
+        if !(strategy in ["drop", "mean", "constant"])
+            throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'drop', 'mean', 'constant'"))
         end
-        new(strategy, Float64[])
+        if strategy == "constant" && constant_value === nothing
+            throw(ArgumentError("constant_value must be provided when using 'constant' strategy"))
+        end
+        new(strategy, Float64[], constant_value)
     end
 end
 
@@ -29,16 +33,29 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
         return X
     end
 
+    # Drop missing values
     if transformer.strategy == "drop"
         valid_rows = .!vec(any(ismissing, X, dims=2))
         return X[valid_rows, :]
 
+    # Replace missing values with mean of the column
     elseif transformer.strategy == "mean"
         result = copy(X)
         for (col_idx, col) in enumerate(eachcol(result))
             missing_mask = ismissing.(col)
             if any(missing_mask)
                 col[missing_mask] .= transformer.mean_values[col_idx]
+            end
+        end
+        return result
+
+    # Replace missing values with a constant value
+    elseif transformer.strategy == "constant"
+        result = copy(X)
+        for col in eachcol(result)
+            missing_mask = ismissing.(col)
+            if any(missing_mask)
+                col[missing_mask] .= transformer.constant_value
             end
         end
         return result
