@@ -1,2 +1,4 @@
 # abstract type for all scalers
-abstract type BaseScaler end
+import ...TransformerModule: Transformer
+
+abstract type BaseScaler <: Transformer end
