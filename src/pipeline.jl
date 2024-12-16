@@ -1,6 +1,7 @@
 module PipelineModule
 
-using ..TransformerModule
+# Pipelines fit! and transform are also extensions to Transformer
+import ..TransformerModule: Transformer, fit!, transform
 
 export Pipeline, make_pipeline, fit!, transform, fit_transform!, add_step!
 
@@ -59,14 +60,14 @@ end
 
 
 """
-    fit!(pipeline::Pipeline, X::Matrix{Float64})
+    fit!(pipeline::Pipeline, X::Matrix{Any})
 
 Fit the pipeline to the input data by fitting each step sequentially. Updates the
 transformers in `pipeline.named_steps` with the results of their `fit!` method.
 
 # Arguments
 - `pipeline::Pipeline`: The pipeline to fit.
-- `X::Matrix{Float64}`: Input data matrix.
+- `X::Matrix{Any}`: Input data matrix.
 
 # Returns
 The updated pipeline.
@@ -77,7 +78,7 @@ function fit!(pipeline::Pipeline, X::Matrix{Any})
 
     # Sequentially fit each step, updating the pipeline's references if necessary
     for (name, step) in pipeline.named_steps
-        fitted_step = TransformerModule.fit!(step, X) # TODO make work for all transformers
+        fitted_step = fit!(step, X)
         pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
     end
 
@@ -86,13 +87,13 @@ end
 
 
 """
-    transform(pipeline::Pipeline, X::Matrix{Float64})
+    transform(pipeline::Pipeline, X::Matrix{Any})
 
 Transform the input data using the pipeline by applying each step sequentially.
 
 # Arguments
 - `pipeline::Pipeline`: The pipeline to use for transformation.
-- `X::Matrix{Float64}`: Input data matrix.
+- `X::Matrix{Any}`: Input data matrix.
 
 # Returns
 Transformed data matrix.
@@ -100,27 +101,27 @@ Transformed data matrix.
 function transform(pipeline::Pipeline, X::Matrix{Any})
     X_transformed = copy(X)
     for (name, step) in pipeline.named_steps
-        X_transformed = TransformerModule.transform(step, X_transformed) # TODO make work for all transformers
+        X_transformed = transform(step, X_transformed)
     end
     return X_transformed
 end
 
 
 """
-    fit_transform!(pipeline::Pipeline, X::Matrix{Float64})
+    fit_transform!(pipeline::Pipeline, X::Matrix{Any})
 
 Fit the pipeline to the data and transform it in one step.
 
 # Arguments
 - `pipeline::Pipeline`: The pipeline to fit and transform.
-- `X::Matrix{Float64}`: Input data matrix.
+- `X::Matrix{Any}`: Input data matrix.
 
 # Returns
 Transformed data matrix.
 """
 function fit_transform!(pipeline::Pipeline, X::Matrix{Any})
-    TransformerModule.fit!(pipeline, X) # TODO make work for all transformers
-    return TransformerModule.transform(pipeline, X) # TODO make work for all transformers
+    fit!(pipeline, X)
+    return transform(pipeline, X)
 end
 
 

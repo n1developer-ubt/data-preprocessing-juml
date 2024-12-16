@@ -38,30 +38,4 @@ function transform(transformer::Transformer, X::Matrix{Any})
     throw(MethodError(transform, (transformer, X)))
 end
 
-# EXAMPLE ##### TODO remove
-
-mutable struct AddTransformer <: Transformer
-    value::Int
-
-    AddTransformer() = new(0)
-end
-
-function fit!(addTrans::AddTransformer, X::Matrix{Any})
-    addTrans.value = 2 # Set fixed value for example
-    return addTrans
-end
-
-function transform(addTrans::AddTransformer, X::Matrix{Any})
-    return X .+ addTrans.value
-end
-
-function fit!(addTrans::AddTransformer, X::Matrix{Int64})
-    addTrans.value = 2 # Set fixed value for example
-    return addTrans
-end
-
-function transform(addTrans::AddTransformer, X::Matrix{Int64})
-    return X .+ addTrans.value
-end
-
 end # module
