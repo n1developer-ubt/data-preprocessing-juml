@@ -68,20 +68,8 @@ using Statistics
 
             scaler_fit!(scaler, data)
 
-            @test isapprox(scaler.max, maximum(data))
-            @test isapprox(scaler.min, minimum(data))
-
-            transformed_data = scaler_transform(scaler, data)
-
-            @info data
-            @info transformed_data
-
-            # @test isapprox(minimum(transformed_data, dims=1), zeros(1, size(data, 2)))
-            # @test isapprox(maximum(transformed_data, dims=1), ones(1, size(data, 2)))
-
-            # inverse_transformed_data = scaler_inverse_transform(scaler, transformed_data)
-
-            # @test isapprox(inverse_transformed_data, data)
+            @test isapprox(scaler.max, maximum(data, dims=1)[:])
+            @test isapprox(scaler.min, minimum(data, dims=1)[:])
         end
     end
 end

@@ -55,8 +55,8 @@ end
 """
 function fit!(scaler::MinMaxScaler, X::Matrix{<:Real}, y::Vector{Any} = [])
     # Calculate min and max for each feature, and convert matrix to vector
-    scaler.min = minimum(X)
-    scaler.max = maximum(X)
+    scaler.min = minimum(X, dims=1)[:]
+    scaler.max = maximum(X, dims=1)[:]
     return scaler
 end
 
@@ -113,8 +113,6 @@ end
     The inverse transformed data.
 """
 function inverse_transform(scaler::MinMaxScaler, X::Vector{<:Real}, y::Vector{Any} = [])
-    min, max = scaler.feature_range
-
     return X .* (scaler.max .- scaler.min) .+ scaler.min
 end
 
