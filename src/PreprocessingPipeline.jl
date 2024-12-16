@@ -14,14 +14,14 @@ using .ExampleTransformers
 using .PipelineModule
 using .FeatureExtraction: extract_feature
 using .Preprocessing: normalize
-using .MissingValue: handle_missing_value
+using .MissingValue: MissingValueTransformer
 
 
 # export modules
 export Pipeline, make_pipeline, fit!, Transformer, transform, predict, fit_transform!, add_step!,
 extract_feature,
 normalize,
-handle_missing_value,
+MissingValueTransformer,
 AddTransformer, MultiplyTransformer # TODO remove later
 
 end
