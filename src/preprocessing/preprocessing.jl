@@ -1,7 +1,7 @@
 module Preprocessing
 
-include("standard_scaler.jl")
+include("scaler/scaler.jl")
 
-export StandardScaler, fit!, fit_transform!, transform, inverse_transform
+export StandardScaler, MinMaxScaler, fit!, transform, fit_transform!, inverse_transform
 
 end

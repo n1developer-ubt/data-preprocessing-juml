@@ -1,5 +1,5 @@
 # import required modules
-include("scaler.jl")
+include("base_scaler.jl")
 
 using Statistics
 
@@ -14,7 +14,7 @@ using Statistics
     - `std::Union{Vector{Float64}, Float64, Nothing}`: Standard deviation of the features.
 
 """
-mutable struct StandardScaler <: Scaler
+mutable struct StandardScaler <: BaseScaler
     mean::Union{Vector{Float64}, Float64, Nothing}
     std::Union{Vector{Float64}, Float64, Nothing}
 
@@ -23,18 +23,36 @@ end
 
 
 """
-    fit!(scaler::StandardScaler, X::Matrix{<:Number})
+    fit!(scaler::StandardScaler, X::Vector{<:Real})
 
     Fit the standard scaler to the data.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Matrix{<:Number}`: The data to fit the scaler.
+    - `X::Vector{<:Real}`: The data to fit the scaler.
 
     # Returns
     The fitted `StandardScaler`.
 """
-function fit!(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
+function fit!(scaler::StandardScaler, X::Vector{<:Real}, y::Vector{Any} = [])
+    scaler.mean = mean(X)
+    scaler.std = std(X, corrected=false)
+    return scaler
+end
+
+"""
+    fit!(scaler::StandardScaler, X::AbstractMatrix{<:Real})
+
+    Fit the standard scaler to the data.
+
+    # Arguments
+    - `scaler::StandardScaler`: An instance of `StandardScaler`.
+    - `X::AbstractMatrix{<:Real}`: The data to fit the scaler.
+
+    # Returns
+    The fitted `StandardScaler`.
+"""
+function fit!(scaler::StandardScaler, X::AbstractMatrix{<:Real}, y::Vector{Any} = [])
     # Calculate mean and std for each feature, and convert matrix to vector
     scaler.mean = mean(X, dims=1)[:]
     scaler.std = std(X, dims=1, corrected=false)[:]
@@ -42,59 +60,18 @@ function fit!(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
 end
 
 """
-    fit!(scaler::StandardScaler, X::Vector{<:Number})
-
-    Fit the standard scaler to the data.
-
-    # Arguments
-    - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Vector{<:Number}`: The data to fit the scaler.
-
-    # Returns
-    The fitted `StandardScaler`.
-"""
-function fit!(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
-    scaler.mean = mean(X)
-    scaler.std = std(X, corrected=false)
-    return scaler
-end
-
-"""
-    transform(scaler::StandardScaler, X::Matrix{<:Number})
+    transform(scaler::StandardScaler, X::Vector{<:Real})
 
     Transform the data using the fitted standard scaler.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Matrix{<:Number}`: The data to transform.
+    - `X::Vector{<:Real}`: The data to transform.
 
     # Returns
     The transformed data.
 """
-function transform(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
-    if(isnothing(scaler.mean) || isnothing(scaler.std))
-        throw(ArgumentError("Scaler not fitted yet"))
-    end
-    if length(scaler.mean) != size(X, 2) || length(scaler.std) != size(X, 2)
-        throw(ArgumentError("Number of features in scaler and X should be same"))
-    end
-    # using ' to transpose the mean vector to align with the matrix on column axis
-    return (X .- scaler.mean') ./ scaler.std'
-end
-
-"""
-    transform(scaler::StandardScaler, X::Vector{<:Number})
-
-    Transform the data using the fitted standard scaler.
-
-    # Arguments
-    - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Vector{<:Number}`: The data to transform.
-
-    # Returns
-    The transformed data.
-"""
-function transform(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
+function transform(scaler::StandardScaler, X::Vector{<:Real}, y::Vector{Any} = [])
     if(isnothing(scaler.mean) || isnothing(scaler.std))
         throw(ArgumentError("Scaler not fitted yet"))
     end
@@ -102,42 +79,43 @@ function transform(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} =
     return (X .- scaler.mean) ./ scaler.std
 end
 
-
 """
-    inverse_transform(scaler::StandardScaler, X::Matrix{<:Number})
+    transform(scaler::StandardScaler, X::AbstractMatrix{<:Real})
 
-    Inverse transform the data using the fitted standard scaler.
+    Transform the data using the fitted standard scaler.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Matrix{<:Number}`: The data to inverse transform.
+    - `X::AbstractMatrix{<:Real}`: The data to transform.
 
     # Returns
-    The inverse transformed data.
+    The transformed data.
 """
-function inverse_transform(scaler::StandardScaler, X::Matrix{<:Number})
+function transform(scaler::StandardScaler, X::AbstractMatrix{<:Real}, y::Vector{Any} = [])
     if(isnothing(scaler.mean) || isnothing(scaler.std))
         throw(ArgumentError("Scaler not fitted yet"))
     end
-    if size(scaler.mean) != size(X, 2)
+    if length(scaler.mean) != size(X, 2) || length(scaler.std) != size(X, 2)
         throw(ArgumentError("Number of features in scaler and X should be same"))
     end
-    return X .* scaler.std .+ scaler.mean
+    # using transpose function to transpose the mean vector to align with the matrix on column axis
+    return (X .- transpose(scaler.mean)) ./ transpose(scaler.std)
 end
 
+
 """
-    inverse_transform(scaler::StandardScaler, X::Vector{<:Number})
+    inverse_transform(scaler::StandardScaler, X::Vector{<:Real})
 
     Inverse transform the data using the fitted standard scaler.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Vector{<:Number}`: The data to inverse transform.
+    - `X::Vector{<:Real}`: The data to inverse transform.
 
     # Returns
     The inverse transformed data.
 """
-function inverse_transform(scaler::StandardScaler, X::Vector{<:Number})
+function inverse_transform(scaler::StandardScaler, X::Vector{<:Real})
     if(isnothing(scaler.mean) || isnothing(scaler.std))
         throw(ArgumentError("Scaler not fitted yet"))
     end
@@ -145,37 +123,55 @@ function inverse_transform(scaler::StandardScaler, X::Vector{<:Number})
     return X .* scaler.std .+ scaler.mean
 end
 
+"""
+    inverse_transform(scaler::StandardScaler, X::AbstractMatrix{<:Real})
+
+    Inverse transform the data using the fitted standard scaler.
+
+    # Arguments
+    - `scaler::StandardScaler`: An instance of `StandardScaler`.
+    - `X::AbstractMatrix{<:Real}`: The data to inverse transform.
+
+    # Returns
+    The inverse transformed data.
+"""
+function inverse_transform(scaler::StandardScaler, X::AbstractMatrix{<:Real})
+    if(isnothing(scaler.mean) || isnothing(scaler.std))
+        throw(ArgumentError("Scaler not fitted yet"))
+    end
+    return X .* transpose(scaler.std) .+ transpose(scaler.mean)
+end
 
 """
-    fit_transform!(scaler::StandardScaler, X::Matrix{<:Number})
+    fit_transform!(scaler::StandardScaler, X::Vector{<:Real})
 
     Fit and transform the data using the standard scaler.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Matrix{<:Number}`: The data to fit and transform.
+    - `X::Vector{<:Real}`: The data to fit and transform.
 
     # Returns
     The transformed data.
 """
-function fit_transform!(scaler::StandardScaler, X::Matrix{<:Number}, y::Vector{Any} = [])
+function fit_transform!(scaler::StandardScaler, X::Vector{<:Real}, y::Vector{Any} = [])
     fit!(scaler, X)
     return transform(scaler, X)
 end
 
 """
-    fit_transform!(scaler::StandardScaler, X::Vector{<:Number})
+    fit_transform!(scaler::StandardScaler, X::AbstractMatrix{<:Real})
 
     Fit and transform the data using the standard scaler.
 
     # Arguments
     - `scaler::StandardScaler`: An instance of `StandardScaler`.
-    - `X::Vector{<:Number}`: The data to fit and transform.
+    - `X::AbstractMatrix{<:Real}`: The data to fit and transform.
 
     # Returns
     The transformed data.
 """
-function fit_transform!(scaler::StandardScaler, X::Vector{<:Number}, y::Vector{Any} = [])
+function fit_transform!(scaler::StandardScaler, X::AbstractMatrix{<:Real}, y::Vector{Any} = [])
     fit!(scaler, X)
     return transform(scaler, X)
 end
