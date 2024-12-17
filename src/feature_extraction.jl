@@ -5,8 +5,47 @@ using Statistics
 using TextAnalysis
 using LinearAlgebra
 
-# export the function
-export extract_feature, tokenize, get_vocabulary, bag_of_words, pca
+
+export FeatureExtractionTransformer, extract_feature, tokenize, get_vocabulary, bag_of_words, pca
+
+import ..TransformerModule: Transformer, fit!, transform
+
+mutable struct FeatureExtractionTransformer <: Transformer
+    strategy::String
+    transformed_data::DataFrame
+
+    function FeatureExtractionTransformer(strategy::String)
+        if !(strategy in ["bow", "pca", "basic"])
+            throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'bow', 'pca', 'basic'"))
+        end
+        if strategy == "constant" && constant_value === nothing
+            throw(ArgumentError("constant_value must be provided when using 'constant' strategy"))
+        end
+        new(strategy, Float64[], constant_value)
+    end
+end
+
+function fit!(transformer::FeatureExtractionTransformer, data::Any)
+
+end
+
+function transform(transformer::FeatureExtractionTransformer, data::Matrix{Any})
+    if typeof(data) == Matrix{Any} || typeof(data) == Matrix{String}
+        data = string.(data)  
+        data = vcat(data...) 
+    end
+end
+
+function transform(transformer::FeatureExtractionTransformer, data::Any)
+    if transformer.strategy == "bow"
+        transformer.transformed_data = DataFrame(extract_feature(data))
+    elseif transformer.strategy == "pca"
+        transformer.transformed_data = DataFrame(extract_feature(data))
+    elseif transformer.strategy == "basic"
+        transformer.transformed_data = DataFrame(extract_feature(data))
+    end
+
+end
 
 # extract the feature
 function extract_feature(text_data::Vector{String})
@@ -23,12 +62,6 @@ function extract_feature(text_data::Vector{String})
     # Returns
     A vector of BoW vectors, where each inner vector represents the BoW representation
     of the corresponding input string.
-
-    # Example
-    ```julia
-    text_data = ["This is a test.", "Another test sentence."]
-    bow_vectors = extract_feature(text_data)
-    ```
     """
     
     # Implementation of Bag-of-Words (without stop words) in Julia for extraction of text data (c.f. Scikit Learn data transforms section 6.2)
@@ -53,13 +86,6 @@ function tokenize(text_data::Vector{String})
     # Returns
     A vector of vectors, where each inner vector contains the tokens (words) of the corresponding
     input string.
-
-    # Example
-    ```julia
-    text_data = ["Hello, World!", "Julia is great."]
-    tokens = tokenize(text_data)
-    # Output: [["hello", "world"], ["julia", "is", "great"]]
-    ```
     """
     # TODO: Docstring Documentation
     text_data = lowercase.(text_data)
@@ -165,7 +191,7 @@ function pca(X, k=2)
     return H 
 end
 
-function extract_feature(data::DataFrame; target_column::Union{Symbol, Nothing}=nothing, variance_threshold::Float64=0.01,cardinality_threshold::Int=2,correlation_threshold::Float64=0.2)
+function extract_feature(data::DataFrames; target_column::Union{Symbol, Nothing}=nothing, variance_threshold::Float64=0.01,cardinality_threshold::Int=2,correlation_threshold::Float64=0.2)
     """
         extract_feature(data::DataFrame; target_column::Union{Symbol, Nothing}=nothing, 
                         variance_threshold::Float64=0.01, cardinality_threshold::Int=2, 
@@ -187,7 +213,7 @@ function extract_feature(data::DataFrame; target_column::Union{Symbol, Nothing}=
     A `DataFrame` with the features filtered according to the specified thresholds.
     """ 
     # TODO: Docstring Documentation
-    filtered_data = variance_filter(filtered_data, variance_threshold)
+    filtered_data = variance_filter(data, variance_threshold)
     filtered_data = low_cardinality_filter(filtered_data, cardinality_threshold)
     if target_column !== nothing
         filtered_data = correlation_filter(filtered_data, target_column, correlation_threshold)
@@ -195,7 +221,7 @@ function extract_feature(data::DataFrame; target_column::Union{Symbol, Nothing}=
     return filtered_data
 end
 
-function filter_variance(data::DataFrame, threshold::Float64)
+function filter_variance(data::DataFrames, threshold::Float64)
     # TODO: Docstring Documentation
     """
         filter_variance(data::DataFrame, threshold::Float64)
@@ -216,7 +242,7 @@ function filter_variance(data::DataFrame, threshold::Float64)
     return select(data, selected_columns)
 end
 
-function filter_correlation(data::DataFrame, target_column::Symbol, threshold::Float64)
+function filter_correlation(data::DataFrames, target_column::Symbol, threshold::Float64)
     """
         filter_correlation(data::DataFrame, target_column::Symbol, threshold::Float64)
 
@@ -242,7 +268,7 @@ function filter_correlation(data::DataFrame, target_column::Symbol, threshold::F
     return select(data, [target_column; selected_columns])
 end
 
-function filter_low_cardinality(data::DataFrame)
+function filter_low_cardinality(data::DataFrames)
     """
     filter_low_cardinality(data::DataFrame)
 
@@ -259,4 +285,6 @@ function filter_low_cardinality(data::DataFrame)
     cardinalities = map(col -> length(unique(data[:, col])), names(data))
     selected_columns = names(data)[cardinalities .> threshold]
     return select(data, selected_columns)
+end
+
 end

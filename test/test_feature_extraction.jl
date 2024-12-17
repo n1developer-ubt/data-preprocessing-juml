@@ -1,7 +1,86 @@
 using Test
 using PreprocessingLib.FeatureExtraction
 
-@testset "Feature Extraction Tests" begin
+
+@testset "FeatureExtractionTransformer: Bag-of-Words (BoW)" begin
+    text_data = [
+        "This is the first sentence.", 
+        "Here is the second sentence.", 
+        "And this is the third sentence."
+    ]
+ 
+    pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("bow"))
+    fit!(pipeline, text_data)
+    X_transformed = transform(pipeline, text_data)
+
+    @test typeof(X_transformed) == DataFrame
+    @test size(X_transformed, 1) == 3
+    @test size(X_transformed, 2) > 0
+end
+
+@testset "FeatureExtractionTransformer: PCA" begin
+    text_data = [
+        "This is the first sentence.", 
+        "Here is the second sentence.", 
+        "And this is the third sentence."
+    ]
+    pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("pca"))
+    fit!(pipeline, text_data)
+    X_transformed = transform(pipeline, text_data)
+
+    @test typeof(X_transformed) == DataFrame
+    @test size(X_transformed, 1) == 3
+    @test size(X_transformed, 2) > 0
+end
+
+@testset "FeatureExtractionTransformer: Basic" begin
+    text_data = [
+        "This is the first sentence.", 
+        "Here is the second sentence.", 
+        "And this is the third sentence."
+    ]
+
+    pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("basic"))
+    fit!(pipeline, text_data)
+    X_transformed = transform(pipeline, text_data)
+
+    @test typeof(X_transformed) == DataFrame
+    @test size(X_transformed, 1) == 3
+    @test size(X_transformed, 2) > 0
+end
+
+@testset "FeatureExtractionTransformer: Invalid Strategy" begin
+    # Test invalid strategy in pipeline
+    @test_throws ArgumentError begin
+        FeatureExtractionTransformer("invalid_strategy")
+    end
+end
+
+@testset "FeatureExtractionTransformer: Fit and Transform with Matrix Input" begin
+    # Test data
+    text_data = [
+        "This is a test.", 
+        "Another test sentence.", 
+        "This is yet another test."
+    ]
+
+    pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("bow"))
+    fit!(pipeline, text_data)
+    X_transformed = transform(pipeline, text_data)
+    
+    @test typeof(X_transformed) == DataFrame
+    @test size(X_transformed, 1) == 3
+    @test size(X_transformed, 2) > 0
+end
+
+
+# @testset "Feature Extraction Tests: bow" begin
+#     text_data = ["This is a test.", "Another test sentence."]
+#     pipeline = make_pipeline("feature_extracter" => FeatureExtractionTransformer("bow"))
+#     fit!(pipeline, )
+# end
+
+@testset "Feature Extraction Functions Tests" begin
     # Tests for extract_feature(text_data::Vector{String}) mithilfe von ChatGPT 4o
     @testset "Extract features from Text Data" begin
         @testset "Base Case" begin
@@ -114,4 +193,10 @@ end
 #     data = [1, 2, 3, 4, 5]
 #     result = extract_feature(data)
 #     @test result == data
+# end
+
+# @testset "Feature Extraction Tests: bow" begin
+#     text_data = ["This is a test.", "Another test sentence."]
+#     pipeline = make_pipeline("feature_extracter" => FeatureExtractionTransformer("bow"))
+#     fit!(pipeline, )
 # end
