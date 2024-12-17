@@ -40,7 +40,7 @@ You can chain multiple transformers in a pipeline:
     MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
     StandardScaler()
     MinMaxScaler()
-    FeatureExtractionTransformer()
+    FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
    ```
 
 ## Create Custom Transformers
