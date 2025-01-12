@@ -1,6 +1,8 @@
-using Documenter, PreprocessingPipeline
+using PreprocessingPipeline
+using Documenter 
 
 makedocs(
+    modules=[PreprocessingPipeline],
     sitename = "PreprocessingPipeline.jl",
     format = Documenter.HTML(),
     pages = [
