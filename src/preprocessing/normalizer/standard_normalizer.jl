@@ -3,6 +3,22 @@ using LinearAlgebra
 
 import ...TransformerModule: fit!, transform, inverse_transform
 
+"""
+    StandardNormalizer
+
+    Standard Normalizer is a normalizer that normalizes the data using the standard normalization technique.
+
+    # Arguments
+    - `type::String`: The type of normalization to apply. It can be one of the following:
+        - "l1": L1 normalization.
+        - "l2": L2 normalization.
+        - "max": Max normalization.
+
+    # Examples
+    ```julia
+    normalizer = StandardNormalizer("l2")
+    ```
+"""
 mutable struct StandardNormalizer <: BaseNormalizer
     type::String
     norm::Union{Vector{Float64}, Float64, Nothing}

@@ -5,6 +5,16 @@ include("base_scaler.jl")
 using Statistics
 import ...TransformerModule: fit!, transform, inverse_transform
 
+"""
+    MaxAbsScaler
+
+    Max Abs Scaler is a scaler that scales the data using the maximum absolute value of the data.
+
+    # Examples
+    ```julia
+    scaler = MaxAbsScaler()
+    ```
+"""
 mutable struct MaxAbsScaler <: BaseScaler
     max_abs::Union{Matrix{<:Real}, <:Real, Nothing}
 
