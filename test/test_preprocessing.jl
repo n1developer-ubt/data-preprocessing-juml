@@ -160,4 +160,38 @@ using LinearAlgebra
             @test isapprox([norm(row, 2) for row in eachrow(X_transformed)], ones(2))
         end
     end
+
+    @testset "Max Abs Scaler Tests" begin
+        @testset "1 Dimensional Data Tests" begin
+            data = [1, 2, 3, 4, 5]
+
+            scaler = MaxAbsScaler()
+
+            fit!(scaler, data)
+
+            transformed_data = transform(scaler, data)
+
+            @test isapprox(maximum(abs.(transformed_data)), 1.0)
+
+            inverse_transformed_data = inverse_transform(scaler, transformed_data)
+
+            @test isapprox(inverse_transformed_data, data)
+        end
+
+        @testset "Multi Dimensional Data Tests" begin
+            data = [1 2 3; 4 5 6]
+
+            scaler = MaxAbsScaler()
+
+            fit!(scaler, data)
+
+            transformed_data = transform(scaler, data)
+
+            @test isapprox(transformed_data, [0.25 0.4 0.5; 1.0 1.0 1.0])
+
+            inverse_transformed_data = inverse_transform(scaler, transformed_data)
+
+            @test isapprox(inverse_transformed_data, data)
+        end
+    end
 end
