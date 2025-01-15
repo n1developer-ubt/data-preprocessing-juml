@@ -47,5 +47,12 @@ function transform(transformer::Transformer, X::Vector)
     throw(MethodError(transform, (transformer, X)))
 end
 
+function inverse_transform(transformer::Transformer, X::Matrix)
+    throw(MethodError(inverse_transform, (transformer, X)))
+end
+
+function inverse_transform(transformer::Transformer, X::Vector)
+    throw(MethodError(inverse_transform, (transformer, X)))
+end
 
 end # module
