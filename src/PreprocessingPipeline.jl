@@ -13,9 +13,11 @@ using .TransformerModule
 using .ExampleTransformers
 using .PipelineModule
 using .FeatureExtraction: extract_feature
-using .Preprocessing:  Scaler.StandardScaler, Scaler.MinMaxScaler, 
+using .Preprocessing:  Scaler.StandardScaler, Scaler.MinMaxScaler, Scaler.MaxAbsScaler, Scaler.BaseScaler,
                         Scaler.inverse_transform as inverse_transform,
-                        Scaler.fit_transform! as scaler_fit_transform
+                        Normalizers.BaseNormalizer,
+                        Normalizers.StandardNormalizer,
+                        Normalizers.inverse_transform as inverse_transform
 using .MissingValue: MissingValueTransformer
 
 
@@ -23,7 +25,7 @@ using .MissingValue: MissingValueTransformer
 export Pipeline, make_pipeline, fit!, Transformer, transform, predict, fit_transform!, add_step!,
 extract_feature,
 handle_missing_value, StandardScaler, MinMaxScaler, scaler_fit!, inverse_transform, fit_transform!,
-MissingValueTransformer,
+MissingValueTransformer, StandardNormalizer, MaxAbsScaler, BaseScaler, BaseNormalizer
 AddTransformer, MultiplyTransformer # TODO remove later
 
 end
