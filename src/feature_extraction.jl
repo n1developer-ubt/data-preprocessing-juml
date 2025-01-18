@@ -1,12 +1,8 @@
 module FeatureExtraction
 
-using DataFrames
-using Statistics
-using TextAnalysis
-using LinearAlgebra
+using DataFrames: DataFrame
 
-
-export FeatureExtractionTransformer, extract_feature, tokenize, get_vocabulary, bag_of_words, pca
+export FeatureExtractionTransformer, extract_feature, get_vocabulary, bag_of_words, pca, fit!, transform
 
 import ..TransformerModule: Transformer, fit!, transform
 

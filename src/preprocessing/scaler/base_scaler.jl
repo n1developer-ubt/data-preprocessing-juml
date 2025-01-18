@@ -1,5 +1,4 @@
 # abstract type for all scalers
-import ...TransformerModule: Transformer
 
 """
     BaseScaler

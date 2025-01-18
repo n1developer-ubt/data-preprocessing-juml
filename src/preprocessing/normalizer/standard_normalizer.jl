@@ -1,7 +1,5 @@
-include("base_normalizer.jl")
-using LinearAlgebra
+using LinearAlgebra: norm
 
-import ...TransformerModule: fit!, transform, inverse_transform
 
 """
     StandardNormalizer

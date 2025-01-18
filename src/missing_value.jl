@@ -1,6 +1,6 @@
 module MissingValue
 
-export MissingValueTransformer
+export MissingValueTransformer, fit!, transform
 
 import ..TransformerModule: Transformer, fit!, transform
 
