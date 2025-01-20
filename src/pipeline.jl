@@ -1,7 +1,7 @@
 module PipelineModule
 
 # Pipelines fit! and transform are also extensions to Transformer
-import ..TransformerModule: Transformer, fit!, transform
+import ..TransformerModule: Transformer, fit!, transform, inverse_transform, fit_transform!
 
 export Pipeline, make_pipeline, fit!, transform, fit_transform!, add_step!
 

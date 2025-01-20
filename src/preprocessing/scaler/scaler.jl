@@ -1,4 +1,4 @@
-import ...TransformerModule: Transformer, fit!, transform, inverse_transform
+import ...TransformerModule: Transformer, fit!, transform, inverse_transform, fit_transform!
 
 include("base_scaler.jl")
 include("max_abs_scaler.jl")
