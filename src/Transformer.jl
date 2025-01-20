@@ -55,4 +55,14 @@ function inverse_transform(transformer::Transformer, X::Vector)
     throw(MethodError(inverse_transform, (transformer, X)))
 end
 
+function fit_transform!(transformer::Transformer, X::Matrix)
+    fit!(transformer, X)
+    return transform(transformer, X)
+end
+
+function fit_transform!(transformer::Transformer, X::Vector)
+    fit!(transformer, X)
+    return transform(transformer, X)
+end
+
 end # module

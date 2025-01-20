@@ -1,7 +1,4 @@
 # implement max abs scaler
-
-include("base_scaler.jl")
-
 using Statistics
 import ...TransformerModule: fit!, transform, inverse_transform
 
