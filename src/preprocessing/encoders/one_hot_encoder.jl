@@ -1,4 +1,3 @@
-import ...TransformerModule: fit!, transform, fit_transform!, inverse_transform
 
 """
     OneHotEncoder

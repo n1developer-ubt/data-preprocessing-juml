@@ -5,6 +5,8 @@ include("scaler/scaler.jl")
 
 # Normalizer
 include("normalizer/normalizer.jl")
+
+# Encoder
 include("encoders/encoder.jl")
 
 
