@@ -190,4 +190,22 @@
             @test isapprox(inverse_transformed_data, data)
         end
     end
+
+    @testset "One Hot Encoder Tests" begin
+        @testset "1 Dimensional Data Tests" begin
+            data = ["a", "b", "c", "a", "b"]
+
+            encoder = OneHotEncoder()
+
+            fit!(encoder, data)
+
+            transformed_data = transform(encoder, data)
+
+            @test isapprox(transformed_data, [1 0 0; 0 1 0; 0 0 1; 1 0 0; 0 1 0])
+
+            inverse_transformed_data = inverse_transform(encoder, transformed_data)
+
+            @test inverse_transformed_data == data
+        end
+    end
 end

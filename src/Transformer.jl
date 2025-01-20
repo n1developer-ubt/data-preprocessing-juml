@@ -76,6 +76,7 @@ end
 
 function fit_transform!(transformer::Transformer, X::Vector)
     throw(MethodError(fit!, (transformer, X)))
+
 end
 
 end # module

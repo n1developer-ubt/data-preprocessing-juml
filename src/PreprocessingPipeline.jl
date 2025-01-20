@@ -27,5 +27,6 @@ export Pipeline, make_pipeline, add_step!
 export extract_feature
 export StandardScaler, MinMaxScaler, MaxAbsScaler, StandardNormalizer
 export MissingValueTransformer
+export BaseEncoder, OneHotEncoder
 
 end
