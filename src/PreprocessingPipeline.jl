@@ -6,7 +6,6 @@ using LinearAlgebra: norm
 
 # import required modules
 include("Transformer.jl")
-#include("exampleTransformer.jl")
 include("feature_extraction.jl")
 include("missing_value.jl")
 include("preprocessing/preprocessing.jl")
@@ -14,7 +13,6 @@ include("pipeline.jl")
 
 
 using .TransformerModule
-#using .ExampleTransformers
 using .PipelineModule
 using .FeatureExtraction
 using .Preprocessing
