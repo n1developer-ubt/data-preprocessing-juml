@@ -12,7 +12,7 @@ include("pipeline.jl")
 using .TransformerModule
 using .ExampleTransformers
 using .PipelineModule
-using .FeatureExtraction: extract_feature
+using .FeatureExtraction
 using .Preprocessing:  Scaler.StandardScaler, Scaler.MinMaxScaler, 
                         Scaler.inverse_transform as inverse_transform,
                         Scaler.fit_transform! as scaler_fit_transform

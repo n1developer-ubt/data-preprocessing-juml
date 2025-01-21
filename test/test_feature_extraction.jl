@@ -1,200 +1,99 @@
+using Test
+using .FeatureExtraction
 
-
-# @testset "FeatureExtractionTransformer: Bag-of-Words (BoW)" begin
-#     text_data = [
-#         "This is the first sentence.", 
-#         "Here is the second sentence.", 
-#         "And this is the third sentence."
-#     ]
- 
-#     pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("bow"))
-#     fit!(pipeline, text_data)
-#     X_transformed = transform(pipeline, text_data)
-
-#     @test typeof(X_transformed) == DataFrame
-#     @test size(X_transformed, 1) == 3
-#     @test size(X_transformed, 2) > 0
-# end
-
-# @testset "FeatureExtractionTransformer: PCA" begin
-#     text_data = [
-#         "This is the first sentence.", 
-#         "Here is the second sentence.", 
-#         "And this is the third sentence."
-#     ]
-#     pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("pca"))
-#     fit!(pipeline, text_data)
-#     X_transformed = transform(pipeline, text_data)
-
-#     @test typeof(X_transformed) == DataFrame
-#     @test size(X_transformed, 1) == 3
-#     @test size(X_transformed, 2) > 0
-# end
-
-# @testset "FeatureExtractionTransformer: Basic" begin
-#     text_data = [
-#         "This is the first sentence.", 
-#         "Here is the second sentence.", 
-#         "And this is the third sentence."
-#     ]
-
-#     pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("basic"))
-#     fit!(pipeline, text_data)
-#     X_transformed = transform(pipeline, text_data)
-
-#     @test typeof(X_transformed) == DataFrame
-#     @test size(X_transformed, 1) == 3
-#     @test size(X_transformed, 2) > 0
-# end
-
-# @testset "FeatureExtractionTransformer: Invalid Strategy" begin
-#     # Test invalid strategy in pipeline
-#     @test_throws ArgumentError begin
-#         FeatureExtractionTransformer("invalid_strategy")
-#     end
-# end
-
-# @testset "FeatureExtractionTransformer: Fit and Transform with Matrix Input" begin
-#     # Test data
-#     text_data = [
-#         "This is a test.", 
-#         "Another test sentence.", 
-#         "This is yet another test."
-#     ]
-
-#     pipeline = make_pipeline("feature_extractor" => FeatureExtractionTransformer("bow"))
-#     fit!(pipeline, text_data)
-#     X_transformed = transform(pipeline, text_data)
+# Test for PCA Feature Extraction
+@testset "FeatureExtractionTransformer: PCA" begin
+    X = rand(100, 10)  # Random data with 100 samples and 10 features
+    transformer = FeatureExtractionTransformer("pca")
+    fit!(transformer, X)
+    X_transformed = transform(transformer, X)
     
-#     @test typeof(X_transformed) == DataFrame
-#     @test size(X_transformed, 1) == 3
-#     @test size(X_transformed, 2) > 0
-# end
+    @test size(X_transformed) == (2, 100)  # PCA should reduce to 2 dimensions by default
+    @test typeof(X_transformed) == Matrix{Float64}
+end
 
+# Test for Bag-of-Words (BoW) Feature Extraction
+@testset "FeatureExtractionTransformer: Bag-of-Words" begin
+    text_data = [
+        "This is the first sentence.",
+        "Here is the second sentence.",
+        "And this is the third sentence."
+    ]
+    transformer = FeatureExtractionTransformer("bow")
+    fit!(transformer, text_data)
+    X_transformed = transform(transformer, text_data)
+    
+    @test size(X_transformed)[1] == 3  # Number of documents
+    @test size(X_transformed)[2] > 0   # Vocabulary size should be greater than 0
+    @test typeof(X_transformed) == Matrix{Float64}
+end
 
-# # @testset "Feature Extraction Tests: bow" begin
-# #     text_data = ["This is a test.", "Another test sentence."]
-# #     pipeline = make_pipeline("feature_extracter" => FeatureExtractionTransformer("bow"))
-# #     fit!(pipeline, )
-# # end
+# Test for TF-IDF Feature Extraction
+@testset "FeatureExtractionTransformer: TF-IDF" begin
+    text_data = [
+        "apple banana orange",
+        "apple apple banana",
+        "orange banana apple"
+    ]
+    transformer = FeatureExtractionTransformer("tfidf")
+    fit!(transformer, text_data)
+    X_transformed = transform(transformer, text_data)
+    
+    @test size(X_transformed)[1] == 3  # Number of documents
+    @test size(X_transformed)[2] > 0   # Vocabulary size should be greater than 0
+    @test typeof(X_transformed) == Matrix{Float64}
+end
 
-# @testset "Feature Extraction Functions Tests" begin
-#     # Tests for extract_feature(text_data::Vector{String}) mithilfe von ChatGPT 4o
-#     @testset "Extract features from Text Data" begin
-#         @testset "Base Case" begin
-#             text_data = ["This is a test.", "Another test sentence."]
-#             expected_bow = [
-#                 [1, 1, 1, 1, 0, 0],
-#                 [0, 0, 0, 1, 1, 1]
-#             ]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-        
-#         @testset "Empty Input" begin
-#             text_data = []
-#             expected_bow = []
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
+# Test for N-Grams Feature Extraction
+@testset "FeatureExtractionTransformer: N-Grams" begin
+    text_data = [
+        "this is a test",
+        "another test case"
+    ]
+    transformer = FeatureExtractionTransformer("ngrams")
+    fit!(transformer, text_data)
+    X_transformed = transform(transformer, text_data)
     
-#         @testset "Single Word Input" begin
-#             text_data = ["Word", "Another"]
-#             expected_bow = [[1, 0], [0, 1]]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-    
-#         @testset "Repeated Words" begin
-#             text_data = ["word word word", "word"]
-#             expected_bow = [[3], [1]]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-    
-#         @testset "Case Sensitivity" begin
-#             text_data = ["Word", "word"]
-#             expected_bow = [[1], [1]]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-    
-#         @testset "Special Characters" begin
-#             text_data = ["Hello, world!", "Hello world"]
-#             expected_bow = [[1, 1], [1, 1]]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-    
-#         @testset "Numerical Input" begin
-#             text_data = ["123", "456", "123 123"]
-#             expected_bow = [[1, 0], [0, 1], [2, 0]]
-#             result = extract_feature(text_data)
-#             @test result == expected_bow
-#         end
-#     end
+    @test typeof(X_transformed) == Vector{String}
+    @test length(X_transformed) > 0  # Ensure n-grams are generated
+end
 
-#     @testset "tokenize Tests" begin
-#         @testset "Base Cases" begin
-#             text_data = ["This is a test.", "Another test sentence."]
-#             expected_tokens = [["this", "is", "a", "test"], ["another", "test", "sentence"]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
-        
-#         @testset "Empty Input" begin
-#             text_data = []
-#             expected_tokens = []
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
-
-#         @testset "Single Word Input" begin
-#             text_data = ["Word", "Another"]
-#             expected_tokens = [["word"], ["another"]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
- 
-#         @testset "Case Sensitivity" begin
-#             text_data = ["Word", "word"]
-#             expected_tokens = [["word"], ["word"]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
-
-#         @testset "Special Characters" begin
-#             text_data = ["Hello, world!", "It's a test."]
-#             expected_tokens = [["hello", "world"], ["its", "a", "test"]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
+# Test for Flatten Image Feature Extraction
+@testset "FeatureExtractionTransformer: Flatten Image" begin
+    image = rand(28, 28)  # Example of a 28x28 image
+    transformer = FeatureExtractionTransformer("flatten_image")
+    fit!(transformer, image)
+    X_transformed = transform(transformer, image)
     
-#         @testset "Numerical Input" begin
-#             text_data = ["123 easy as 456"]
-#             expected_tokens = [["123", "easy", "as", "456"]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
-    
-#         @testset "Empty Strings" begin
-#             text_data = [""]
-#             expected_tokens = [[]]
-#             result = tokenize(text_data)
-#             @test result == expected_tokens
-#         end
-#     end
-    
-# end
+    @test size(X_transformed) == (28 * 28, 1)  # Flattened image should be 1D
+    @test typeof(X_transformed) == Matrix{Float64}
+end
 
-# # @testset "Feature Extraction Tests" begin
-# #     data = [1, 2, 3, 4, 5]
-# #     result = extract_feature(data)
-# #     @test result == data
-# # end
+# Test for Variance Filter
+@testset "FeatureExtraction: Variance Filter" begin
+    X = rand(100, 10)  # Random data
+    X[:, 1] .= 0.0  # First column has zero variance
+    X_filtered = filter_variance(X, 0.01)
+    
+    @test size(X_filtered, 2) < size(X, 2)  # At least one column should be removed
+    @test typeof(X_filtered) == Matrix{Float64}
+end
 
-# # @testset "Feature Extraction Tests: bow" begin
-# #     text_data = ["This is a test.", "Another test sentence."]
-# #     pipeline = make_pipeline("feature_extracter" => FeatureExtractionTransformer("bow"))
-# #     fit!(pipeline, )
-# # end
+# Test for Correlation Filter
+@testset "FeatureExtraction: Correlation Filter" begin
+    X = rand(100, 10)  # Random data
+    target = X[:, 1] + rand(100) * 0.1  # Target correlated with the first feature
+    X_filtered = filter_correlation(X, target, 0.5)
+    
+    @test size(X_filtered, 2) > 0  # Ensure some features are selected
+    @test typeof(X_filtered) == Matrix{Float64}
+end
+
+# Test for Low Cardinality Filter
+@testset "FeatureExtraction: Low Cardinality Filter" begin
+    X = hcat(rand(1:3, 100, 5), rand(1:10, 100, 2))  # Low and high cardinality columns
+    X_filtered = filter_low_cardinality(X, 5)
+    
+    @test size(X_filtered, 2) < size(X, 2)  # Ensure low cardinality columns are removed
+    @test typeof(X_filtered) == Matrix{Int}
+end
