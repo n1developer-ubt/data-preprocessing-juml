@@ -31,7 +31,7 @@ StandardNormalizer
 MissingValueTransformer
 ```
 
-## fit!, transform, fit_transform!, inverse_transform
+## `fit!`, `transform`, `fit_transform!`, `inverse_transform`
 ```@docs
 fit!
 transform

@@ -1,4 +1,6 @@
 <!-- developer docs -->
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://n1developer-ubt.github.io/data-preprocessing-juml/dev/)
+
 [![codecov](https://codecov.io/gh/n1developer-ubt/data-preprocessing-juml/branch/main/graph/badge.svg)](https://codecov.io/gh/n1developer-ubt/data-preprocessing-juml)
 
 # Julia Data Preprocessing Pipeline
