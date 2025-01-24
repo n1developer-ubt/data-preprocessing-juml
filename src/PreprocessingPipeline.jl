@@ -1,8 +1,11 @@
 module PreprocessingPipeline
 
+using DataFrames: DataFrame
+using Statistics: mean, std
+using LinearAlgebra: norm
+
 # import required modules
 include("Transformer.jl")
-include("exampleTransformer.jl")
 include("feature_extraction.jl")
 include("missing_value.jl")
 include("preprocessing/preprocessing.jl")
@@ -10,20 +13,18 @@ include("pipeline.jl")
 
 
 using .TransformerModule
-using .ExampleTransformers
 using .PipelineModule
 using .FeatureExtraction
-using .Preprocessing:  Scaler.StandardScaler, Scaler.MinMaxScaler, 
-                        Scaler.inverse_transform as inverse_transform,
-                        Scaler.fit_transform! as scaler_fit_transform
-using .MissingValue: MissingValueTransformer
+using .Preprocessing
+using .MissingValue
 
 
 # export modules
-export Pipeline, make_pipeline, fit!, Transformer, transform, predict, fit_transform!, add_step!,
-extract_feature,
-handle_missing_value, StandardScaler, MinMaxScaler, scaler_fit!, inverse_transform, fit_transform!,
-MissingValueTransformer,
-AddTransformer, MultiplyTransformer # TODO remove later
+export Transformer, fit!, transform, inverse_transform, fit_transform!
+export Pipeline, make_pipeline, add_step!
+export extract_feature
+export StandardScaler, MinMaxScaler, MaxAbsScaler, StandardNormalizer
+export MissingValueTransformer
+export OneHotEncoder
 
 end

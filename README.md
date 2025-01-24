@@ -1,4 +1,7 @@
 <!-- developer docs -->
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://n1developer-ubt.github.io/data-preprocessing-juml/dev/)
+
+[![codecov](https://codecov.io/gh/n1developer-ubt/data-preprocessing-juml/branch/main/graph/badge.svg)](https://codecov.io/gh/n1developer-ubt/data-preprocessing-juml)
 
 # Julia Data Preprocessing Pipeline
 Created as part of the JuML course at TU Berlin - Group F (2024-25). This project is inspired by scikit-learns [dataset transformations](https://scikit-learn.org/stable/data_transforms.html) library and implements some of its functions in Julia. 

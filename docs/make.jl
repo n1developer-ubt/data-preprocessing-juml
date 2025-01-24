@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 using PreprocessingPipeline
 using Documenter 
+=======
+push!(LOAD_PATH, "../src")
+using Documenter, PreprocessingPipeline
+>>>>>>> 6a6200c7d5e273ad9d57894f1a38ee588af76522
 
 makedocs(;
     modules=[PreprocessingPipeline],

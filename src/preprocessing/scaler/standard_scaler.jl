@@ -1,9 +1,6 @@
-# import required modules
-include("base_scaler.jl")
 
-using Statistics
+using Statistics: mean, std
 
-import ...TransformerModule: fit!, transform
 
 """
     struct StandardScaler

@@ -16,7 +16,7 @@ The pipeline consists of a series of transformers. Each transformer has a `fit!`
 
 ### Create a Pipeline
    ```julia
-    data = [1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing]
+    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
     
     pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
 

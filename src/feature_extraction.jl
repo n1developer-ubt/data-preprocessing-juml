@@ -1,10 +1,16 @@
 module FeatureExtraction
 
+<<<<<<< HEAD
 using Statistics
 using LinearAlgebra
 using TextAnalysis
 
 export FeatureExtractionTransformer, extract_feature, tokenize, get_vocabulary, bag_of_words, pca, generate_ngrams
+=======
+using DataFrames: DataFrame
+
+export FeatureExtractionTransformer, extract_feature, get_vocabulary, bag_of_words, pca, fit!, transform
+>>>>>>> 6a6200c7d5e273ad9d57894f1a38ee588af76522
 
 import ..TransformerModule: Transformer, fit!, transform
 

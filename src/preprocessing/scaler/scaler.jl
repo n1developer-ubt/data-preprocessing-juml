@@ -1,9 +1,6 @@
-module Scaler
+import ...TransformerModule: Transformer, fit!, transform, inverse_transform, fit_transform!
 
 include("base_scaler.jl")
-include("standard_scaler.jl")
+include("max_abs_scaler.jl")
 include("min_max_scaler.jl")
-
-export BaseScaler, StandardScaler, MinMaxScaler, fit!, transform, fit_transform!, inverse_transform
-
-end
+include("standard_scaler.jl")
