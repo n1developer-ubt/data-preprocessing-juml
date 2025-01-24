@@ -1,4 +1,18 @@
 
+@testset "Test Getting Started" begin
+
+    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+    
+    pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+
+    fit!(pipeline, data)
+    data_transformed = transform(pipeline, data)
+
+    @test data_transformed == [1.0 6.5 3.0; 4.0 5.0 6.0; 7.0 8.0 4.5]
+end
+
+
+
 @testset "StandardScaling and OneHotEncoding" begin
 
     # Sample data

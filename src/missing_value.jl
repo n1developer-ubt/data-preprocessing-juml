@@ -43,9 +43,9 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
     end
 
     # Drop missing values
-    if transformer.strategy == "drop"
+    transformed = if transformer.strategy == "drop"
         valid_rows = .!vec(any(ismissing, X, dims=2))
-        return X[valid_rows, :]
+        X[valid_rows, :]
 
     # Replace missing values with mean of the column
     elseif transformer.strategy == "mean"
@@ -56,7 +56,7 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
                 col[missing_mask] .= transformer.mean_values[col_idx]
             end
         end
-        return result
+        result
 
     # Replace missing values with a constant value
     elseif transformer.strategy == "constant"
@@ -67,8 +67,20 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
                 col[missing_mask] .= transformer.constant_value
             end
         end
-        return result
+        result
     end
+
+
+    # === CAST STEP ===
+    # Attempt to cast the entire matrix to Float64 if all elements are numbers;
+    # otherwise cast to String.
+    if all(x -> x isa Number, transformed)
+        Matrix{Float64}(map(Float64, transformed))
+    else
+        Matrix{String}(map(string, transformed))
+    end
+
+
 end
 
 
