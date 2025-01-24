@@ -1,6 +1,6 @@
-using LinearAlgebra
 
-import ...TransformerModule: fit!, transform, inverse_transform
+using LinearAlgebra: norm
+
 
 """
     StandardNormalizer

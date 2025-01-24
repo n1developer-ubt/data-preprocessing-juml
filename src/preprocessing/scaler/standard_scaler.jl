@@ -1,8 +1,6 @@
-# import required modules
 
-using Statistics
+using Statistics: mean, std
 
-import ...TransformerModule: fit!, transform, inverse_transform
 
 """
     struct StandardScaler

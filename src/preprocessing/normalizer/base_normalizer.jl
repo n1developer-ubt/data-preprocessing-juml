@@ -1,5 +1,4 @@
 # abstract type for all normalizers
-import ...TransformerModule: Transformer
 
 """
 BaseNormalizer

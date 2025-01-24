@@ -1,7 +1,11 @@
 module TransformerModule
 
 export Transformer, AddTransformer
+"""
+    Transformer
 
+Abstract type for a step in a pipeline.
+"""
 abstract type Transformer end
 
 """
@@ -55,14 +59,24 @@ function inverse_transform(transformer::Transformer, X::Vector)
     throw(MethodError(inverse_transform, (transformer, X)))
 end
 
+"""
+Fits the transformer to the given data `X` and then also applies the transformation.
+This method should be implemented for any concrete subtype of `Transformer`.
+
+# Arguments
+- `transformer::Transformer`: The transformer instance.
+- `X::Matrix{Any}`: The input data to fit the transformer.
+
+# Returns
+A transformed version of `X`.
+"""
 function fit_transform!(transformer::Transformer, X::Matrix)
-    fit!(transformer, X)
-    return transform(transformer, X)
+    throw(MethodError(fit!, (transformer, X)))
 end
 
 function fit_transform!(transformer::Transformer, X::Vector)
-    fit!(transformer, X)
-    return transform(transformer, X)
+    throw(MethodError(fit!, (transformer, X)))
+
 end
 
 end # module

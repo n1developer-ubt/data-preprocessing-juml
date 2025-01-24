@@ -1,6 +1,3 @@
-# implement max abs scaler
-using Statistics
-import ...TransformerModule: fit!, transform, inverse_transform
 
 """
     MaxAbsScaler
