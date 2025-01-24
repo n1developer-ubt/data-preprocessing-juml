@@ -3,16 +3,16 @@ import ...TransformerModule: fit!, transform, fit_transform!, inverse_transform
 """
     OneHotEncoder
 
-    One Hot Encoder is an encoder that encodes the data using the one hot encoding technique.
+One Hot Encoder is an encoder that encodes the data using the one hot encoding technique.
 
-    # Arguments
-    - `categories::Union{Vector{String}, Vector{Vector{String}}, Nothing}`: The categories to encode. It can be one of the following:
-        - `Vector{String}`: The categories to encode.
-        - `Vector{Vector{String}}`: The categories to encode for each feature (if the data has multiple features).
-        - `Nothing`: The categories will be inferred from the data.
-    - `handle_unknown::String`: The strategy to handle unknown categories. It can be one of the following:
-        - "error": Raise an error.
-        - "ignore": Ignore the unknown categories.
+# Arguments
+- `categories::Union{Vector{String}, Vector{Vector{String}}, Nothing}`: The categories to encode. It can be one of the following:
+    - `Vector{String}`: The categories to encode.
+    - `Vector{Vector{String}}`: The categories to encode for each feature (if the data has multiple features).
+    - `Nothing`: The categories will be inferred from the data.
+- `handle_unknown::String`: The strategy to handle unknown categories. It can be one of the following:
+    - "error": Raise an error.
+    - "ignore": Ignore the unknown categories.
 """
 mutable struct OneHotEncoder <: BaseEncoder
     categories::Union{Vector{String}, Nothing}
@@ -25,14 +25,14 @@ end
 """
     fit!(encoder::OneHotEncoder, X::Vector{<:String})
 
-    Fit the encoder to the data.
+Fit the encoder to the data.
 
-    # Arguments
-    - `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
-    - `X::Vector{<:String}`: The data to fit the encoder.
+# Arguments
+- `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
+- `X::Vector{<:String}`: The data to fit the encoder.
 
-    # Returns
-    The fitted `OneHotEncoder`.
+# Returns
+The fitted `OneHotEncoder`.
 """
 function fit!(encoder::OneHotEncoder, X::Vector{<:String}, y::Vector{Any} = [])
     if encoder.categories === nothing
@@ -44,14 +44,14 @@ end
 """
     transform(encoder::OneHotEncoder, X::Vector{<:String})
 
-    Transform the data using the encoder.
+Transform the data using the encoder.
 
-    # Arguments
-    - `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
-    - `X::Vector{<:String}`: The data to transform.
+# Arguments
+- `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
+- `X::Vector{<:String}`: The data to transform.
 
-    # Returns
-    The transformed data.
+# Returns
+The transformed data.
 """
 function transform(encoder::OneHotEncoder, X::Vector{<:String})
     cats = encoder.categories
@@ -76,14 +76,14 @@ end
 """
     inverse_transform!(encoder::OneHotEncoder, X::Matrix{<:Real})
 
-    Inverse transform the data using the encoder.
+Inverse transform the data using the encoder.
 
-    # Arguments
-    - `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
-    - `X::Matrix{<:Real}`: The data to inverse transform.
+# Arguments
+- `encoder::OneHotEncoder`: An instance of `OneHotEncoder`.
+- `X::Matrix{<:Real}`: The data to inverse transform.
 
-    # Returns
-    The inverse transformed data.
+# Returns
+The inverse transformed data.
 """
 function inverse_transform(encoder::OneHotEncoder, X::Matrix{<:Real})
     if size(X, 2) != length(encoder.categories)
