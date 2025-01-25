@@ -78,6 +78,14 @@
 
             @test isapprox(scaler.max, maximum(data, dims=1)[:])
             @test isapprox(scaler.min, minimum(data, dims=1)[:])
+
+            transformed_data = transform(scaler, data)
+
+            @test isapprox(transformed_data, [0.0 0.0 0.0; 0.5 0.5 0.5; 1.0 1.0 1.0])
+
+            inverse_transformed_data = inverse_transform(scaler, transformed_data)
+
+            @test isapprox(inverse_transformed_data, data)
         end
     end
 

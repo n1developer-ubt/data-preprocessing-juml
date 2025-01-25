@@ -5,18 +5,18 @@ using LinearAlgebra: norm
 """
     StandardNormalizer
 
-    Standard Normalizer is a normalizer that normalizes the data using the standard normalization technique.
+Standard Normalizer is a normalizer that normalizes the data using the standard normalization technique.
 
-    # Arguments
-    - `type::String`: The type of normalization to apply. It can be one of the following:
-        - "l1": L1 normalization.
-        - "l2": L2 normalization.
-        - "max": Max normalization.
+# Arguments
+- `type::String`: The type of normalization to apply. It can be one of the following:
+    - "l1": L1 normalization.
+    - "l2": L2 normalization.
+    - "max": Max normalization.
 
-    # Examples
-    ```julia
-    normalizer = StandardNormalizer("l2")
-    ```
+# Examples
+```julia
+normalizer = StandardNormalizer("l2")
+```
 """
 mutable struct StandardNormalizer <: BaseNormalizer
     type::String
@@ -29,14 +29,14 @@ end
 """
     fit!(normalizer::StandardNormalizer, X::Vector{<:Real})
 
-    Fit the normalizer to the data.
+Fit the normalizer to the data.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Vector{<:Real}`: The data to fit the normalizer.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Vector{<:Real}`: The data to fit the normalizer.
 
-    # Returns
-    The fitted `StandardNormalizer`.
+# Returns
+The fitted `StandardNormalizer`.
 """
 function fit!(normalizer::StandardNormalizer, X::Vector{<:Real}, y::Vector{Any} = [])
     if normalizer.type == "l1"
@@ -54,14 +54,14 @@ end
 """
     fit!(normalizer::StandardNormalizer, X::Matrix{<:Real})
 
-    Fit the normalizer to the data.
+Fit the normalizer to the data.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Matrix{<:Real}`: The data to fit the normalizer.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Matrix{<:Real}`: The data to fit the normalizer.
 
-    # Returns
-    The fitted `StandardNormalizer`.
+# Returns
+The fitted `StandardNormalizer`.
 """
 function fit!(normalizer::StandardNormalizer, X::Matrix{<:Real}, y::Vector{Any} = [])
     if normalizer.type == "l1"
@@ -79,14 +79,14 @@ end
 """
     transform(normalizer::StandardNormalizer, X::Vector{<:Real})
 
-    Transform the data using the fitted normalizer.
+Transform the data using the fitted normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Vector{<:Real}`: The data to transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Vector{<:Real}`: The data to transform.
 
-    # Returns
-    The transformed data.
+# Returns
+The transformed data.
 """
 function transform(normalizer::StandardNormalizer, X::Vector{<:Real}, y::Vector{Any} = [])
     if(isnothing(normalizer.norm))
@@ -99,14 +99,14 @@ end
 """
     transform(normalizer::StandardNormalizer, X::Matrix{<:Real})
 
-    Transform the data using the fitted normalizer.
+Transform the data using the fitted normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Matrix{<:Real}`: The data to transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Matrix{<:Real}`: The data to transform.
 
-    # Returns
-    The transformed data.
+# Returns
+The transformed data.
 """
 function transform(normalizer::StandardNormalizer, X::Matrix{<:Real}, y::Vector{Any} = [])
     if(isnothing(normalizer.norm))
@@ -119,14 +119,14 @@ end
 """
     inverse_transform(normalizer::StandardNormalizer, X::Vector{<:Real})
 
-    Inverse transform the data using the fitted normalizer.
+Inverse transform the data using the fitted normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Vector{<:Real}`: The data to inverse transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Vector{<:Real}`: The data to inverse transform.
 
-    # Returns
-    The inverse transformed data.
+# Returns
+The inverse transformed data.
 """
 function inverse_transform(normalizer::StandardNormalizer, X::Vector{<:Real}, y::Vector{Any} = [])
     if(isnothing(normalizer.norm))
@@ -139,14 +139,14 @@ end
 """
     inverse_transform(normalizer::StandardNormalizer, X::Matrix{<:Real})
 
-    Inverse transform the data using the fitted normalizer.
+Inverse transform the data using the fitted normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Matrix{<:Real}`: The data to inverse transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Matrix{<:Real}`: The data to inverse transform.
 
-    # Returns
-    The inverse transformed data.
+# Returns
+The inverse transformed data.
 """
 function inverse_transform(normalizer::StandardNormalizer, X::Matrix{<:Real}, y::Vector{Any} = [])
     if(isnothing(normalizer.norm))
@@ -159,14 +159,14 @@ end
 """
     fit_transform!(normalizer::StandardNormalizer, X::Vector{<:Real})
 
-    Fit and transform the data using the normalizer.
+Fit and transform the data using the normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Vector{<:Real}`: The data to fit and transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Vector{<:Real}`: The data to fit and transform.
 
-    # Returns
-    The transformed data.
+# Returns
+The transformed data.
 """
 function fit_transform!(normalizer::StandardNormalizer, X::Vector{<:Real}, y::Vector{Any} = [])
     fit!(normalizer, X)
@@ -176,14 +176,14 @@ end
 """
     fit_transform!(normalizer::StandardNormalizer, X::Matrix{<:Real})
 
-    Fit and transform the data using the normalizer.
+Fit and transform the data using the normalizer.
 
-    # Arguments
-    - `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
-    - `X::Matrix{<:Real}`: The data to fit and transform.
+# Arguments
+- `normalizer::StandardNormalizer`: An instance of `StandardNormalizer`.
+- `X::Matrix{<:Real}`: The data to fit and transform.
 
-    # Returns
-    The transformed data.
+# Returns
+The transformed data.
 """
 function fit_transform!(normalizer::StandardNormalizer, X::Matrix{<:Real}, y::Vector{Any} = [])
     fit!(normalizer, X)
