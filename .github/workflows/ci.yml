@@ -27,5 +27,12 @@ jobs:
       - name: Run tests with coverage
         run: julia --project=. --code-coverage=all -e 'using Pkg; Pkg.test()'
 
+      - name: Generate coverage report
+        run: julia --project=. -e 'using Coverage; cover = process_folder(); LCOV.writefile("coverage.lcov", cover)'
+
       - name: Upload coverage to Codecov
-        run: julia --project=. -e 'using Coverage; Codecov.submit(process_folder())'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.lcov 
+          fail_ci_if_error: false
+
