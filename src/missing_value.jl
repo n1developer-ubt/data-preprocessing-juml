@@ -29,7 +29,7 @@ mutable struct MissingValueTransformer <: Transformer
 end
 
 
-function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+function fit!(transformer::MissingValueTransformer, X::Matrix{<:Any})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
@@ -37,7 +37,7 @@ function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
 end
 
 
-function transform(transformer::MissingValueTransformer, X::Matrix{Any})
+function transform(transformer::MissingValueTransformer, X::Matrix{<:Any})
     if isempty(X)
         return X
     end
@@ -70,17 +70,14 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
         result
     end
 
-
     # === CAST STEP ===
     # Attempt to cast the entire matrix to Float64 if all elements are numbers;
     # otherwise cast to String.
     if all(x -> x isa Number, transformed)
-        Matrix{Float64}(map(Float64, transformed))
+        return Matrix{Float64}(map(Float64, transformed))
     else
-        Matrix{String}(map(string, transformed))
+        return Matrix{String}(map(string, transformed))
     end
-
-
 end
 
 
@@ -88,6 +85,5 @@ function calculate_mean(col)
     values = filter(!ismissing, col)
     isempty(values) ? 0.0 : sum(values) / length(values)
 end
-
 
 end

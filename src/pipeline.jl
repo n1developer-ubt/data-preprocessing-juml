@@ -75,10 +75,14 @@ The updated pipeline.
 function fit!(pipeline::Pipeline{D, V}, X::Matrix{T}) where {T, D<:AbstractDict{String, <:Transformer}, V<:AbstractVector{String}}
     pipeline.n_features_in_ = size(X, 2)
     pipeline.feature_names_in_ = ["feature_$i" for i in 1:size(X, 2)]
+    X_copy = copy(X)  # Create a copy of X
 
     # Sequentially fit each step, updating the pipeline's references if necessary
     for (name, step) in pipeline.named_steps
-        fitted_step = fit!(step, X)
+        @info X_copy
+        @info name
+        fitted_step = fit!(step, X_copy)
+        X_copy = transform(step, X_copy)  # Transform X_copy for the next step
         pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
     end
 
@@ -102,10 +106,14 @@ The updated pipeline.
 function fit!(pipeline::Pipeline{D, V}, X::Vector{T}) where {T, D<:AbstractDict{String, <:Transformer}, V<:AbstractVector{String}}
     pipeline.n_features_in_ = length(X)
     pipeline.feature_names_in_ = ["feature_$i" for i in 1:length(X)]
+    X_copy = copy(X)  # Create a copy of X
 
     # Sequentially fit each step, updating the pipeline's references if necessary
     for (name, step) in pipeline.named_steps
-        fitted_step = fit!(step, X)
+        @info X_copy
+        @info name
+        fitted_step = fit!(step, X_copy)
+        X_copy = transform(step, X_copy)  # Transform X_copy for the next step
         pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
     end
 
@@ -245,7 +253,7 @@ Create a pipeline from a sequence of named transformer steps.
 A new `Pipeline` instance.
 """
 function make_pipeline(steps::Pair{String, <:Transformer}...)
-    named_steps = Dict{String, Transformer}(steps)
+    named_steps = Dict(steps)
     return Pipeline(named_steps)
 end
 
