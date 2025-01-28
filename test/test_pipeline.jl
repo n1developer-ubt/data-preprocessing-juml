@@ -12,6 +12,27 @@
 end
 
 
+@testset "Test Getting Started" begin
+
+    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+
+    
+    # first pipeline to handle missing values
+    pipeline = make_pipeline("missing_handler" => MissingValueTransformer("constant", 5.0))
+
+    fit!(pipeline, data)
+    data_transformed = transform(pipeline, data)
+
+    # second pipeline to normalize the data
+    pipeline = make_pipeline("normalizer" => StandardNormalizer("l2"))
+
+    fit!(pipeline, data_transformed)
+    data_transformed = transform(pipeline, data_transformed)
+
+    @test data_transformed == [0.1690308509457033 0.8451542547285166 0.50709255283711; 0.4558423058385518 0.5698028822981898 0.6837634587578276; 0.595879571531124 0.6810052246069989 0.4256282653793743]
+end
+
+
 
 @testset "StandardScaling and OneHotEncoding" begin
 
