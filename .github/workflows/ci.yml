@@ -12,27 +12,47 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up Julia
-        uses: julia-actions/setup-julia@v2
-        with:
-          version: '1'
+    - name: Set up Julia
+      uses: julia-actions/setup-julia@v1
+      with:
+        version: '1.9'  # Update to your preferred Julia version
 
-      - uses: julia-actions/cache@v2
+    - name: Install dependencies
+      run: julia --project=@. -e 'using Pkg; Pkg.instantiate()'
 
-      - name: Install dependencies
-        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+    - name: Run tests with coverage
+      run: julia --project=@. --code-coverage=user -e 'using Pkg; Pkg.test()'
 
-      - name: Run tests with coverage
-        run: julia --project=. --code-coverage=all -e 'using Pkg; Pkg.test()'
+    - name: Install Coverage.jl
+      run: julia -e 'using Pkg; Pkg.add("Coverage")'
 
-      - name: Generate coverage report
-        run: julia --project=. -e 'using Coverage; cover = process_folder(); LCOV.writefile("coverage.lcov", cover)'
+    - name: Process and upload coverage
+      run: julia -e 'using Coverage; Codecov.submit(Codecov.process_folder())'
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - uses: actions/checkout@v4
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage.lcov 
-          fail_ci_if_error: false
+    #   - name: Set up Julia
+    #     uses: julia-actions/setup-julia@v2
+    #     with:
+    #       version: '1'
+
+    #   - uses: julia-actions/cache@v2
+
+    #   - name: Install dependencies
+    #     run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    #   - name: Run tests with coverage
+    #     run: julia --project=. --code-coverage=all -e 'using Pkg; Pkg.test()'
+
+    #   - name: Generate coverage report
+    #     run: julia --project=. -e 'using Coverage; cover = process_folder(); LCOV.writefile("coverage.lcov", cover)'
+
+    #   - name: Upload coverage to Codecov
+    #     uses: codecov/codecov-action@v4
+    #     with:
+    #       files: ./coverage.lcov 
+    #       fail_ci_if_error: false
 
