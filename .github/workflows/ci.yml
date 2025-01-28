@@ -23,7 +23,7 @@ jobs:
       run: julia --project=@. -e 'using Pkg; Pkg.instantiate()'
 
     - name: Run tests with coverage
-      run: julia --project=@. --code-coverage=user -e 'using Pkg; Pkg.test()'
+      run: julia --project=@. --code-coverage=user -e 'using Pkg; Pkg.test(coverage=true)'
 
     - name: Install Coverage.jl
       run: julia -e 'using Pkg; Pkg.add("Coverage")'
