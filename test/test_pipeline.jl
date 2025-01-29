@@ -94,3 +94,72 @@ end
     #@test X_transformed ≈ expected_output
 
 end
+
+
+
+
+
+####### Test Abstract Transformer #######
+
+@testset "Abstract Transformer Tests" begin
+    # Create a concrete type that doesn't implement the required methods
+    struct DummyTransformer <: Transformer end
+    
+    dummy = DummyTransformer()
+    test_matrix = [1 2; 3 4]
+    test_vector = [1, 2, 3]
+
+    @testset "fit! method" begin
+        @test_throws MethodError fit!(dummy, test_matrix)
+        @test_throws MethodError fit!(dummy, test_vector)
+    end
+
+    @testset "transform method" begin
+        @test_throws MethodError transform(dummy, test_matrix)
+        @test_throws MethodError transform(dummy, test_vector)
+    end
+
+    @testset "inverse_transform method" begin
+        @test_throws MethodError inverse_transform(dummy, test_matrix)
+        @test_throws MethodError inverse_transform(dummy, test_vector)
+    end
+
+    @testset "fit_transform! method" begin
+        @test_throws MethodError fit_transform!(dummy, test_matrix)
+        @test_throws MethodError fit_transform!(dummy, test_vector)
+    end
+end
+
+
+
+@testset "Pipeline fit_transform! Tests" begin
+    @testset "Matrix Input" begin
+        # Test data with missing values
+        data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+        
+        # Create pipeline with missing value handler
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        
+        # Test fit_transform!
+        transformed_data = fit_transform!(pipeline, data)
+        
+        # Verify pipeline was fitted
+        @test pipeline.n_features_in_ == 3
+        @test pipeline.feature_names_in_ == ["feature_1", "feature_2", "feature_3"]
+        
+        # Verify data was transformed correctly
+        @test transformed_data == [1.0 6.5 3.0; 4.0 5.0 6.0; 7.0 8.0 4.5]
+    end
+
+
+    @testset "Vector Input" begin
+        # Test vector data
+        data = [1.0, missing, 3.0, 4.0, 5.0]
+        
+        # Create pipeline
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        
+        # This should throw an error
+        @test_throws MethodError fit_transform!(pipeline, data)
+    end
+end

@@ -12,6 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      
       - name: Checkout code
         uses: actions/checkout@v4  
 
@@ -19,7 +20,6 @@ jobs:
         uses: julia-actions/setup-julia@v2
         with:
           version: "1.10"
-
 
       - uses: julia-actions/cache@v2
 
@@ -43,39 +43,3 @@ jobs:
           slug: n1developer-ubt/data-preprocessing-juml
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-
-  #   name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}  
-  #   runs-on: ${{ matrix.os }}
-  #   timeout-minutes: 60
-  #   permissions:
-  #     actions: write  
-  #     contents: read
-  #   strategy:
-  #     fail-fast: false  
-  #     matrix:
-  #       version:
-  #         - '1.10'  
-  #       os:
-  #         - ubuntu-latest  
-  #       arch:
-  #         - x64  
-  #   steps:
-  #     - uses: actions/checkout@v4  
-  #     - uses: julia-actions/setup-julia@v2
-  #       with:
-  #         version: ${{ matrix.version }}   
-  #         arch: ${{ matrix.arch }}
-  #     - uses: julia-actions/cache@v2
-  #     - uses: julia-actions/julia-buildpkg@v1
-  #       env:
-  #         PYTHON: ""  
-  #     - uses: julia-actions/julia-runtest@v1
-  #       env:
-  #         PYTHON: ""  
-  #     - uses: julia-actions/julia-processcoverage@v1
-  #     - uses: codecov/codecov-action@v5
-  #       with:
-  #         files: lcov.info  
-  #         slug: n1developer-ubt/data-preprocessing-juml
-  #         token: ${{ secrets.CODECOV_TOKEN }}
-  #         fail_ci_if_error: false
