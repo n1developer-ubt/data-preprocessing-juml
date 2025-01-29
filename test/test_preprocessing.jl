@@ -217,3 +217,35 @@
         end
     end
 end
+
+
+####### Test Abstract Transformer #######
+
+@testset "Abstract Transformer Tests" begin
+    # Create a concrete type that doesn't implement the required methods
+    struct DummyTransformer <: Transformer end
+    
+    dummy = DummyTransformer()
+    test_matrix = [1 2; 3 4]
+    test_vector = [1, 2, 3]
+
+    @testset "fit! method" begin
+        @test_throws MethodError fit!(dummy, test_matrix)
+        @test_throws MethodError fit!(dummy, test_vector)
+    end
+
+    @testset "transform method" begin
+        @test_throws MethodError transform(dummy, test_matrix)
+        @test_throws MethodError transform(dummy, test_vector)
+    end
+
+    @testset "inverse_transform method" begin
+        @test_throws MethodError inverse_transform(dummy, test_matrix)
+        @test_throws MethodError inverse_transform(dummy, test_vector)
+    end
+
+    @testset "fit_transform! method" begin
+        @test_throws MethodError fit_transform!(dummy, test_matrix)
+        @test_throws MethodError fit_transform!(dummy, test_vector)
+    end
+end
