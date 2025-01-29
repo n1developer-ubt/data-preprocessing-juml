@@ -38,9 +38,6 @@ end
 
 
 function transform(transformer::MissingValueTransformer, X::Matrix{Any})
-    if isempty(X)
-        return X
-    end
 
     # Drop missing values
     transformed = if transformer.strategy == "drop"
