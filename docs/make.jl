@@ -5,7 +5,9 @@ makedocs(
     sitename = "PreprocessingPipeline.jl",
     format = Documenter.HTML(),
     pages = [
-        "Home" => "index.md"
+        "Getting Started" => "index.md",
+        "Pipeline" => "pipeline.md",
+        "API Reference" => "api.md"
     ]
 )
 

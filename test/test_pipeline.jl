@@ -4,14 +4,20 @@
 
         data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
 
-        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        # first pipeline to handle missing values
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("constant", 5.0))
 
         fit!(pipeline, data)
         data_transformed = transform(pipeline, data)
 
-        @test data_transformed == [1.0 6.5 3.0; 4.0 5.0 6.0; 7.0 8.0 4.5]
-    end
+        # second pipeline to normalize the data
+        pipeline = make_pipeline("normalizer" => StandardNormalizer("l2"))
 
+        fit!(pipeline, data_transformed)
+        data_transformed = transform(pipeline, data_transformed)
+
+        @test data_transformed == [0.1690308509457033 0.8451542547285166 0.50709255283711; 0.4558423058385518 0.5698028822981898 0.6837634587578276; 0.595879571531124 0.6810052246069989 0.4256282653793743]
+    end
 
     @testset "StandardScaling and OneHotEncoding" begin
 
@@ -71,5 +77,74 @@
 
         # Test transformed data
         @test X_transformed ≈ expected_output
+    end
+end
+
+
+
+
+
+####### Test Abstract Transformer #######
+
+@testset "Abstract Transformer Tests" begin
+    # Create a concrete type that doesn't implement the required methods
+    struct DummyTransformer <: Transformer end
+    
+    dummy = DummyTransformer()
+    test_matrix = [1 2; 3 4]
+    test_vector = [1, 2, 3]
+
+    @testset "fit! method" begin
+        @test_throws MethodError fit!(dummy, test_matrix)
+        @test_throws MethodError fit!(dummy, test_vector)
+    end
+
+    @testset "transform method" begin
+        @test_throws MethodError transform(dummy, test_matrix)
+        @test_throws MethodError transform(dummy, test_vector)
+    end
+
+    @testset "inverse_transform method" begin
+        @test_throws MethodError inverse_transform(dummy, test_matrix)
+        @test_throws MethodError inverse_transform(dummy, test_vector)
+    end
+
+    @testset "fit_transform! method" begin
+        @test_throws MethodError fit_transform!(dummy, test_matrix)
+        @test_throws MethodError fit_transform!(dummy, test_vector)
+    end
+end
+
+
+
+@testset "Pipeline fit_transform! Tests" begin
+    @testset "Matrix Input" begin
+        # Test data with missing values
+        data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+        
+        # Create pipeline with missing value handler
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        
+        # Test fit_transform!
+        transformed_data = fit_transform!(pipeline, data)
+        
+        # Verify pipeline was fitted
+        @test pipeline.n_features_in_ == 3
+        @test pipeline.feature_names_in_ == ["feature_1", "feature_2", "feature_3"]
+        
+        # Verify data was transformed correctly
+        @test transformed_data == [1.0 6.5 3.0; 4.0 5.0 6.0; 7.0 8.0 4.5]
+    end
+
+
+    @testset "Vector Input" begin
+        # Test vector data
+        data = [1.0, missing, 3.0, 4.0, 5.0]
+        
+        # Create pipeline
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        
+        # This should throw an error
+        @test_throws MethodError fit_transform!(pipeline, data)
     end
 end

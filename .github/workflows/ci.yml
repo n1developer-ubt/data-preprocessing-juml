@@ -7,32 +7,39 @@ on:
   pull_request:
     branches:
       - main
-
+  
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      
+      - name: Checkout code
+        uses: actions/checkout@v4  
 
-      - name: Set up Julia
+      - name: Setup Julia
         uses: julia-actions/setup-julia@v2
         with:
-          version: '1'
+          version: "1.10"
 
       - uses: julia-actions/cache@v2
 
-      - name: Install dependencies
-        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+      - name: Build package 
+        uses: julia-actions/julia-buildpkg@v1
+        env:
+          PYTHON: ""  
 
-      - name: Run tests with coverage
-        run: julia --project=. --code-coverage=all -e 'using Pkg; Pkg.test()'
+      - name: Run tests
+        uses: julia-actions/julia-runtest@v1
+        env:
+          PYTHON: ""  
 
-      - name: Generate coverage report
-        run: julia --project=. -e 'using Coverage; cover = process_folder(); LCOV.writefile("coverage.lcov", cover)'
+      - name: Process coverage
+        uses: julia-actions/julia-processcoverage@v1
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
-          files: ./coverage.lcov 
+          files: lcov.info  
+          slug: n1developer-ubt/data-preprocessing-juml
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-
