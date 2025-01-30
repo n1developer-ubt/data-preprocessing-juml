@@ -11,6 +11,13 @@ Transformer for handling missing values using different strategies:
 - "drop": Remove rows with missing values
 - "mean": Replace with column means
 - "constant": Replace with specified value
+
+# Arguments
+- `strategy::String`: Strategy to handle missing values ("drop", "mean", or "constant")
+- `constant_value::Any`: Value to use when strategy is "constant"
+
+# Returns
+- `MissingValueTransformer`: A transformer object with the specified strategy and constant value
 """
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
@@ -29,6 +36,18 @@ mutable struct MissingValueTransformer <: Transformer
 end
 
 
+"""
+    fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+
+Fit the transformer to the input data. Updates the transformer's internal state.
+
+# Arguments
+- `transformer::MissingValueTransformer`: The transformer to fit.
+- `X::Matrix{Any}`: Input data matrix.
+
+# Returns
+The updated transformer.
+"""
 function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
@@ -37,6 +56,18 @@ function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
 end
 
 
+"""
+    transform(transformer::MissingValueTransformer, X::Matrix{Any})
+
+Transform the input data by handling missing values according to the chosen strategy.
+
+# Arguments
+- `transformer::MissingValueTransformer`: The fitted transformer
+- `X::Matrix{Any}`: Input data matrix with potential missing values
+
+# Returns
+- Transformed matrix with missing values handled according to the strategy
+"""
 function transform(transformer::MissingValueTransformer, X::Matrix{Any})
 
     # Drop missing values
@@ -81,10 +112,20 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
 end
 
 
+"""
+    calculate_mean(col)
+
+Calculate the mean of a column, ignoring missing values.
+
+# Arguments
+- `col`: Column of data that may contain missing values
+
+# Returns
+- Mean value of non-missing elements, or 0.0 if all elements are missing
+"""
 function calculate_mean(col)
     values = filter(!ismissing, col)
     isempty(values) ? 0.0 : sum(values) / length(values)
 end
-
 
 end
