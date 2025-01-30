@@ -29,4 +29,4 @@ The `MissingValue` module provides strategies for dealing with incomplete datase
 
 
 ## Getting started
--  see [getting started](docs/getting-started.md)
+-  see [DOCS](https://n1developer-ubt.github.io/data-preprocessing-juml/dev/)
