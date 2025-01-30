@@ -7,8 +7,8 @@ makedocs(
     pages = [
         "Getting Started" => "getting-started.md",
         "index" => "index.md",
-        "Pipeline" => "pipeline.md",
-        "API Reference" => "api.md"
+        # "Pipeline" => "pipeline.md",
+        # "API Reference" => "api.md"
     ]
     # pages = [
     #     "Home" => "index.md"
