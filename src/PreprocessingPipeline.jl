@@ -4,10 +4,10 @@ using DataFrames: DataFrame
 using Statistics: mean, std
 using LinearAlgebra: norm
 
+
 # import required modules
 include("Transformer.jl")
 include("feature_extraction/feature_extraction.jl")
-# include("feature_extraction.jl") # TODO: ENTFERNEN!!!!
 include("missing_value.jl")
 include("preprocessing/preprocessing.jl")
 include("pipeline.jl")
@@ -15,7 +15,7 @@ include("pipeline.jl")
 
 using .TransformerModule
 using .PipelineModule
-using .FeatureExtraction # TODO: ENTFERNEN!!!!
+using .FeatureExtraction
 using .Preprocessing
 using .MissingValue
 
