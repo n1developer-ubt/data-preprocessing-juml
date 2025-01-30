@@ -48,7 +48,7 @@ Fit the transformer to the input data. Updates the transformer's internal state.
 # Returns
 The updated transformer.
 """
-function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+function fit!(transformer::MissingValueTransformer, X::Matrix{<:Any})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
@@ -68,7 +68,10 @@ Transform the input data by handling missing values according to the chosen stra
 # Returns
 - Transformed matrix with missing values handled according to the strategy
 """
-function transform(transformer::MissingValueTransformer, X::Matrix{Any})
+function transform(transformer::MissingValueTransformer, X::Matrix{<:Any})
+    if isempty(X)
+        return X
+    end
 
     # Drop missing values
     transformed = if transformer.strategy == "drop"
@@ -98,17 +101,14 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Any})
         result
     end
 
-
     # === CAST STEP ===
     # Attempt to cast the entire matrix to Float64 if all elements are numbers;
     # otherwise cast to String.
     if all(x -> x isa Number, transformed)
-        Matrix{Float64}(map(Float64, transformed))
+        return Matrix{Float64}(map(Float64, transformed))
     else
-        Matrix{String}(map(string, transformed))
+        return Matrix{String}(map(string, transformed))
     end
-
-
 end
 
 

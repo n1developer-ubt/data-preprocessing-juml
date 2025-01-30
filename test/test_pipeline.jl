@@ -1,98 +1,83 @@
+@testset "Pipeline" begin
 
-@testset "Test Getting Started" begin
+    @testset "Test Getting Started" begin
 
-    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
-    
-    pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+        data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
 
-    fit!(pipeline, data)
-    data_transformed = transform(pipeline, data)
+        # first pipeline to handle missing values
+        pipeline = make_pipeline("missing_handler" => MissingValueTransformer("constant", 5.0))
 
-    @test data_transformed == [1.0 6.5 3.0; 4.0 5.0 6.0; 7.0 8.0 4.5]
-end
+        fit!(pipeline, data)
+        data_transformed = transform(pipeline, data)
 
+        # second pipeline to normalize the data
+        pipeline = make_pipeline("normalizer" => StandardNormalizer("l2"))
 
-@testset "Test Getting Started" begin
+        fit!(pipeline, data_transformed)
+        data_transformed = transform(pipeline, data_transformed)
 
-    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+        @test data_transformed == [0.1690308509457033 0.8451542547285166 0.50709255283711; 0.4558423058385518 0.5698028822981898 0.6837634587578276; 0.595879571531124 0.6810052246069989 0.4256282653793743]
+    end
 
-    
-    # first pipeline to handle missing values
-    pipeline = make_pipeline("missing_handler" => MissingValueTransformer("constant", 5.0))
+    @testset "StandardScaling and OneHotEncoding" begin
 
-    fit!(pipeline, data)
-    data_transformed = transform(pipeline, data)
+        # Sample data
+        X = ["monkey", "cat", "dog", "dog", "cat", "monkey"]
 
-    # second pipeline to normalize the data
-    pipeline = make_pipeline("normalizer" => StandardNormalizer("l2"))
+        # Create transformers
+        encoder = OneHotEncoder()
+        scaler = StandardScaler()
 
-    fit!(pipeline, data_transformed)
-    data_transformed = transform(pipeline, data_transformed)
+        # Create pipeline
+        pipeline = make_pipeline("encoder" => encoder, "scaler" => scaler)
 
-    @test data_transformed == [0.1690308509457033 0.8451542547285166 0.50709255283711; 0.4558423058385518 0.5698028822981898 0.6837634587578276; 0.595879571531124 0.6810052246069989 0.4256282653793743]
-end
+        # Fit and transform the pipeline
+        X_transformed = fit_transform!(pipeline, X)
 
+        # Expected output after scaling and one-hot encoding
+        expected_output = [1.414 -0.707 -0.707;
+                           -0.707 1.414 -0.707;
+                           -0.707 -0.707 1.414;
+                           -0.707 -0.707 1.414;
+                           -0.707 1.414 -0.707;
+                           1.414 -0.707 -0.707]
 
+        # Test
+        @test isapprox(X_transformed, expected_output, atol=0.01)
+    end
 
-@testset "StandardScaling and OneHotEncoding" begin
+    @testset "MinMaxScaling and MissingValues" begin
 
-    # Sample data
-    X = [1.0 2.0 3.0 "cat";
-        4.0 5.0 6.0 "dog";
-        7.0 8.0 9.0 "cat"]
+        # Sample data with missing value
+        X = [1.0 2.0 missing;
+             4.0 5.0 6.0;
+             7.0 8.0 9.0]
 
-    # Create transformers
-    encoder = OneHotEncoder()
-    scaler = StandardScaler()
+        # Create transformers
+        missing_value_handler = MissingValueTransformer("mean")
+        scaler = MinMaxScaler((0, 5))
 
-    # Create pipeline
-    pipeline = make_pipeline("encoder" => encoder, "scaler" => scaler)
+        # Create an empty pipeline
+        pipeline = Pipeline(Dict{String, Transformer}())
 
-    # Fit and transform the pipeline
-    #X_transformed = fit_transform!(pipeline, X)  TODO fix parameter types
+        # Add steps to the pipeline
+        add_step!(pipeline, "missing_value_handler", missing_value_handler)
+        add_step!(pipeline, "scaler", scaler)
 
-    # Expected output after scaling and one-hot encoding
-    expected_output = [-1.2247 -1.2247 -1.2247 1.0 0.0;
-                        0.0 0.0 0.0 0.0 1.0;
-                        1.2247 1.2247 1.2247 1.0 0.0]
+        # Check pipeline length
+        @test length(pipeline.named_steps) == 2
 
-    # Test
-    #@test X_transformed ≈ expected_output
+        # Fit and transform the pipeline
+        X_transformed = fit_transform!(pipeline, X)
 
-end
+        # Expected output after handling missing values and scaling
+        expected_output = [0.0 0.0 2.5;
+                            2.5 2.5 0.0;
+                           5.0 5.0 5.0]
 
-@testset "MinMaxScaling and MissingValues" begin
-
-    # Sample data with missing value
-    X = [1.0 2.0 missing;
-         4.0 5.0 6.0;
-         7.0 8.0 9.0]
-
-    # Create transformers
-    missing_value_handler = MissingValueTransformer("mean")
-    scaler = MinMaxScaler((0, 5))
-
-    # Create an empty pipeline
-    pipeline = Pipeline(Dict{String, Transformer}())
-
-    # Add steps to the pipeline
-    add_step!(pipeline, "scaler", scaler)
-    add_step!(pipeline, "missing_value_handler", missing_value_handler)
-
-    # Check pipeline length
-    @test length(pipeline.named_steps) == 2
-
-    # Fit and transform the pipeline
-    #X_transformed = fit_transform!(pipeline, X) TODO
-
-    # Expected output after handling missing values and scaling
-    expected_output = [0.0 0.0 0.75;
-                        0.5 0.5 0.0;
-                        1.0 1.0 1.0]
-
-    # Test transformed data
-    #@test X_transformed ≈ expected_output
-
+        # Test transformed data
+        @test X_transformed ≈ expected_output
+    end
 end
 
 

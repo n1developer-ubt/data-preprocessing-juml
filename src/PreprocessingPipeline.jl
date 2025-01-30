@@ -3,6 +3,7 @@ module PreprocessingPipeline
 using DataFrames: DataFrame
 using Statistics: mean, std
 using LinearAlgebra: norm
+using OrderedCollections: OrderedDict
 
 # import required modules
 include("Transformer.jl")
