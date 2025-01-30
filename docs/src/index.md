@@ -1,57 +1,72 @@
-<<<<<<< HEAD
-```@meta
-CurrentModule = PreprocessingPipeline
+# Getting Started
+
+## Installation
+
+To install the package, use Julia's package manager:
+
+```julia
+pkg> add https://github.com/n1developer-ubt/data-preprocessing-juml
 ```
 
-# PreprocessingPipeline
+## How to use
+The pipeline consists of a series of transformers. Each transformer has a `fit!` and `transform` method. The `fit!` method is used to fit the transformer to the data, and the `transform` method is used to transform the data.
 
-Documentation for [PreprocessingPipeline](https://github.com/n1developer-ubt/data-preprocessing-juml.git).
+First build a pipeline with the transformers you want to use. Then fit the pipeline to the data. Finally, transform the data.
 
-```@index
+
+## Example Basic Usage Example
+
+```julia
+data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+
+pipe = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+
+# Fit and transform the pipeline
+data_transformed = fit_transform!(pipe, data)
 ```
 
-```@autodocs
-Modules = [Preprocessing_Pipeline_JuML]
-```
-=======
-# PreprocessingPipeline
+## Chaining Transformers Example
 
-## Transformer
-```@docs
-Transformer
-```
+You can chain multiple transformers in a pipeline:
 
-## Pipeline
-```@docs
-Pipeline
-add_step!
-make_pipeline
+```julia
+# Sample data
+data = # your data
+
+# Create pipeline
+pipe = make_pipeline("encoder" => OneHotEncoder(), "scaler" => StandardScaler())
+
+# Fit and transform the pipeline
+data_transformed = fit_transform!(pipe, data)
 ```
 
-## Preprocessing
-### Scaler
-```@docs
-StandardScaler
-MinMaxScaler
-MaxAbsScaler
-```
-### Normalizer
-```@docs
-StandardNormalizer
+## Available Transformers
+
+```julia
+MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
+StandardScaler()
+MinMaxScaler()
+FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
 ```
 
-## Feature Extraction
+## Create Custom Transformers
 
-## Missing Values
-```@docs
-MissingValueTransformer
+You can create your own transformers by implementing the `Transformer` interface.
+
+```julia
+mutable struct AddTransformer <: Transformer
+    value::Int
+
+    AddTransformer() = new(0)
+end
+
+function fit!(addTrans::AddTransformer, X::Matrix{Int64})
+    addTrans.value = 2 # Set fixed value for example
+    return addTrans
+end
+
+function transform(addTrans::AddTransformer, X::Matrix{Int64})
+    return X .+ addTrans.value
+end
 ```
 
-## `fit!`, `transform`, `fit_transform!`, `inverse_transform`
-```@docs
-fit!
-transform
-fit_transform!
-inverse_transform
-```
->>>>>>> 6a6200c7d5e273ad9d57894f1a38ee588af76522

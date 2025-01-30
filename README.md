@@ -16,7 +16,7 @@ Main Contributors:
 This package is meant for building robust data preprocessing pipelines. It streamlines workflows by offering modules for sequential data transformations, feature extraction, preprocessing, and handling missing values, ensuring clean and consistent datasets for machine learning and analysis.
 
 ### Pipeline
-The `PipelineModule` enables chaining of data transformation and modeling steps into a unified workflow. It ensures consistent and sequential application of preprocessing and estimation, simplifying the process of fitting, transforming, and predicting on datasets. For more details see the [pipeline documentation](docs/pipeline.md).
+The `PipelineModule` enables chaining of data transformation and modeling steps into a unified workflow. It ensures consistent and sequential application of a variety of preprocessing steps, simplifying the process of fitting and transforming of datasets.
 
 ### Feature Extraction
 The `FeatureExtraction` module provides tools for converting raw data into structured formats suitable for analysis. It includes utilities for vectorization, dimensionality reduction, polynomial feature generation, and scaling to extract meaningful representations from raw datasets.
@@ -29,4 +29,4 @@ The `MissingValue` module provides strategies for dealing with incomplete datase
 
 
 ## Getting started
--  see [getting started](docs/getting-started.md)
+For more details on the implementation and how to get started, see [DOCS](https://n1developer-ubt.github.io/data-preprocessing-juml/dev/).

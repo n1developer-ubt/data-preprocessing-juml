@@ -11,9 +11,9 @@ makedocs(;
         assets=String[],
     ),
     pages = [
-        "Home" => "index.md"
-        "Getting Started" => "getting-started.md"
-    ],
+        "Getting Started" => "index.md",
+        "API Reference" => "api.md"
+    ]
 )
 
 deploydocs(;
