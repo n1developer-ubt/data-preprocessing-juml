@@ -14,9 +14,8 @@ The pipeline consists of a series of transformers. Each transformer has a `fit!`
 First build a pipeline with the transformers you want to use. Then fit the pipeline to the data. Finally, transform the data.
 
 
-## Example Basic Usage
+## Example Basic Usage Example
 
-### Create a Pipeline
 ```julia
 data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
 
@@ -26,7 +25,7 @@ pipe = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
 data_transformed = fit_transform!(pipe, data)
 ```
 
-### Chaining Transformers
+## Chaining Transformers Example
 
 You can chain multiple transformers in a pipeline:
 
