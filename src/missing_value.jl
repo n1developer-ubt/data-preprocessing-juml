@@ -127,3 +127,5 @@ function calculate_mean(col)
     values = filter(!ismissing, col)
     isempty(values) ? 0.0 : sum(values) / length(values)
 end
+
+end
