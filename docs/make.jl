@@ -1,22 +1,16 @@
 push!(LOAD_PATH, "../src")
 using Documenter, PreprocessingPipeline
 
-
-makedocs(;
-    modules=[PreprocessingPipeline],
+makedocs(
     sitename = "PreprocessingPipeline.jl",
-    format = Documenter.HTML(;
-        canonical="https://github.com/n1developer-ubt/data-preprocessing-juml",
-        edit_link="main",
-        assets=String[],
-    ),
+    format = Documenter.HTML(),
     pages = [
         "Getting Started" => "index.md",
         "API Reference" => "api.md"
     ]
 )
 
-deploydocs(;
-    repo = "github.com/n1developer-ubt/data-preprocessing-juml",
+deploydocs(
+    repo = "github.com/n1developer-ubt/data-preprocessing-juml.git",
     devbranch = "main",
 )
