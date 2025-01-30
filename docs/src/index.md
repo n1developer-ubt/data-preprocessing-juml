@@ -17,38 +17,38 @@ First build a pipeline with the transformers you want to use. Then fit the pipel
 ## Example Basic Usage
 
 ### Create a Pipeline
-   ```julia
-    data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
-    
-    pipe = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+```julia
+data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
 
-    # Fit and transform the pipeline
-    data_transformed = fit_transform!(pipe, data)
-   ```
+pipe = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
+
+# Fit and transform the pipeline
+data_transformed = fit_transform!(pipe, data)
+```
 
 ### Chaining Transformers
 
 You can chain multiple transformers in a pipeline:
 
-   ```julia
-    # Sample data
-    data = # your data
+```julia
+# Sample data
+data = # your data
 
-    # Create pipeline
-    pipe = make_pipeline("encoder" => OneHotEncoder(), "scaler" => StandardScaler())
+# Create pipeline
+pipe = make_pipeline("encoder" => OneHotEncoder(), "scaler" => StandardScaler())
 
-    # Fit and transform the pipeline
-    data_transformed = fit_transform!(pipe, data)
-   ```
+# Fit and transform the pipeline
+data_transformed = fit_transform!(pipe, data)
+```
 
 ## Available Transformers
 
-   ```julia
-    MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
-    StandardScaler()
-    MinMaxScaler()
-    FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
-   ```
+```julia
+MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
+StandardScaler()
+MinMaxScaler()
+FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
+```
 
 ## Create Custom Transformers
 
