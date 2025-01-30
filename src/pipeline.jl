@@ -1,5 +1,7 @@
 module PipelineModule
 
+using OrderedCollections: OrderedDict
+
 # Pipelines fit! and transform are also extensions to Transformer
 import ..TransformerModule: Transformer, fit!, transform, inverse_transform, fit_transform!
 
@@ -36,8 +38,9 @@ Initialize a `Pipeline` with the given steps.
 A new `Pipeline` instance.
 """
 function Pipeline(steps::AbstractDict{String, <:Transformer})
+    ordered_steps = OrderedDict(steps)
     feature_names = String[]
-    return Pipeline{typeof(steps), typeof(feature_names)}(steps, 0, feature_names)
+    return Pipeline{typeof(ordered_steps), typeof(feature_names)}(steps, 0, feature_names)
 end
 
 
@@ -79,8 +82,6 @@ function fit!(pipeline::Pipeline{D, V}, X::Matrix{T}) where {T, D<:AbstractDict{
 
     # Sequentially fit each step, updating the pipeline's references if necessary
     for (name, step) in pipeline.named_steps
-        @info X_copy
-        @info name
         fitted_step = fit!(step, X_copy)
         X_copy = transform(step, X_copy)  # Transform X_copy for the next step
         pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
@@ -110,8 +111,6 @@ function fit!(pipeline::Pipeline{D, V}, X::Vector{T}) where {T, D<:AbstractDict{
 
     # Sequentially fit each step, updating the pipeline's references if necessary
     for (name, step) in pipeline.named_steps
-        @info X_copy
-        @info name
         fitted_step = fit!(step, X_copy)
         X_copy = transform(step, X_copy)  # Transform X_copy for the next step
         pipeline.named_steps[name] = fitted_step  # Update the step in the pipeline
@@ -253,7 +252,7 @@ Create a pipeline from a sequence of named transformer steps.
 A new `Pipeline` instance.
 """
 function make_pipeline(steps::Pair{String, <:Transformer}...)
-    named_steps = Dict(steps)
+    named_steps = OrderedDict(steps)
     return Pipeline(named_steps)
 end
 

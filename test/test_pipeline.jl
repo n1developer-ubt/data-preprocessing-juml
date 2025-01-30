@@ -23,7 +23,7 @@
         scaler = StandardScaler()
 
         # Create pipeline
-        pipeline = make_pipeline("1_encoder" => encoder, "2_scaler" => scaler)
+        pipeline = make_pipeline("encoder" => encoder, "scaler" => scaler)
 
         # Fit and transform the pipeline
         X_transformed = fit_transform!(pipeline, X)
@@ -55,8 +55,8 @@
         pipeline = Pipeline(Dict{String, Transformer}())
 
         # Add steps to the pipeline
-        add_step!(pipeline, "1_missing_value_handler", missing_value_handler)
-        add_step!(pipeline, "2_scaler", scaler)
+        add_step!(pipeline, "missing_value_handler", missing_value_handler)
+        add_step!(pipeline, "scaler", scaler)
 
         # Check pipeline length
         @test length(pipeline.named_steps) == 2
