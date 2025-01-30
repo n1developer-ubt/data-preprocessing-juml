@@ -48,7 +48,7 @@ Fit the transformer to the input data. Updates the transformer's internal state.
 # Returns
 The updated transformer.
 """
-function fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+function fit!(transformer::MissingValueTransformer, X::Matrix{<:Any})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
