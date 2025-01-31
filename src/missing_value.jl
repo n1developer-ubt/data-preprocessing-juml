@@ -41,13 +41,13 @@ end
 
 
 """
-    fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, <:Number}})
+    fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, T}}) where T <: Number
 
 Fit the transformer to the input data by computing necessary statistics (e.g., column means).
 
 # Arguments
 - `transformer::MissingValueTransformer`: The transformer to fit
-- `X::Matrix{Union{Missing, Float64}}`: Input data matrix
+- `X::Matrix{Union{Missing, T}} where T <: Number`: Input data matrix
 
 # Returns
 - `MissingValueTransformer`: The fitted transformer
@@ -56,7 +56,7 @@ Fit the transformer to the input data by computing necessary statistics (e.g., c
 - For "mean" strategy: Computes and stores column means, ignoring missing values
 - For "drop" and "constant" strategies: No fitting required
 """
-function fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, Float64}})
+function fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, T}}) where T <: Number
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
@@ -73,18 +73,18 @@ end
 
 
 """
-    transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, <:Number}})
+    transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, T}}) where T <: Number
 
 Transform the input data by handling missing values according to the fitted strategy.
 
 # Arguments
 - `transformer::MissingValueTransformer`: The fitted transformer
-- `X::Matrix{Union{Missing, Float64}}`: Input data matrix with potential missing values
+- `X::Matrix{Union{Missing, T}} where T <: Number`: Input data matrix with potential missing values
 
 # Returns
-- `Matrix{Float64}`: Transformed matrix with missing values handled according to the strategy
+- `Matrix{Number}`: Transformed matrix with missing values handled according to the strategy
     - Empty input returns empty output
-    - Output is converted to Float64 for numeric input
+    - Output is converted to Number for numeric input
     - Output is converted to String for string input
 
 # Notes
@@ -92,7 +92,7 @@ Transform the input data by handling missing values according to the fitted stra
 - "mean" strategy: Uses column means computed during fit
 - "constant" strategy: Uses the specified constant_value
 """
-function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, Float64}})
+function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, T}}) where T <: Number
     if isempty(X)
         return X
     end
@@ -127,10 +127,11 @@ function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing
 
     # === CAST STEP ===
     if all(x -> x isa Number, transformed)
-        return Matrix{Float64}(map(Float64, transformed))
+        return Matrix{Float64}(transformed)
     else
         return Matrix{String}(map(string, transformed))
     end
+
 end
 
 function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, String}})
