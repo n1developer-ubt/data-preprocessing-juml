@@ -43,9 +43,22 @@ data_transformed = fit_transform!(pipe, data)
 ## Available Transformers
 
 ```julia
+
+# Missing Value Transformer
 MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
+
+# Scalers
 StandardScaler()
 MinMaxScaler()
+MaxAbsScaler()
+
+# One Hot Encoder
+OneHotEncoder()
+
+# Standard Normalizer
+StandardNormalizer()
+    
+# Feature Extraction Transformer
 FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
 ```
 
