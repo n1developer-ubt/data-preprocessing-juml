@@ -176,7 +176,7 @@ Inverse transformed data matrix.
 """
 function inverse_transform(pipeline::Pipeline{D, V}, X::Matrix{T}) where {T, D<:AbstractDict{String, <:Transformer}, V<:AbstractVector{String}}
     X_inv_transformed = copy(X)
-    for (name, step) in reverse(pipeline.named_steps)
+    for (name, step) in reverse(collect(pipeline.named_steps))
         X_inv_transformed = inverse_transform(step, X_inv_transformed)
     end
     return X_inv_transformed
@@ -197,7 +197,7 @@ Inverse transformed data vector.
 """
 function inverse_transform(pipeline::Pipeline{D, V}, X::Vector{T}) where {T, D<:AbstractDict{String, <:Transformer}, V<:AbstractVector{String}}
     X_inv_transformed = copy(X)
-    for (name, step) in reverse(pipeline.named_steps)
+    for (name, step) in reverse(collect(pipeline.named_steps))
         X_inv_transformed = inverse_transform(step, X_inv_transformed)
     end
     return X_inv_transformed

@@ -78,6 +78,33 @@
         # Test transformed data
         @test X_transformed ≈ expected_output
     end
+
+    @testset "MinMaxScaling Transform and Inverse Transform" begin
+
+        # Sample data
+        X = [1.0 2.0 3.0;
+             4.0 5.0 6.0;
+             7.0 8.0 9.0]
+
+        # Create transformer
+        scaler = MinMaxScaler((0, 5))
+
+        # Create an empty pipeline
+        pipeline = Pipeline(Dict{String, Transformer}())
+
+        # Add step to the pipeline
+        add_step!(pipeline, "scaler", scaler)
+
+        # Fit and transform the pipeline
+        X_transformed = fit_transform!(pipeline, X)
+
+        # Inverse transform the pipeline
+        X_inverse_transformed = inverse_transform(pipeline, X_transformed)
+
+        # Test if inverse transformed data matches original data
+        @test X_inverse_transformed ≈ X
+    end
+
 end
 
 
