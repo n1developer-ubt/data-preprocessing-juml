@@ -46,7 +46,13 @@ data_transformed = fit_transform!(pipe, data)
 MissingValueTransformer("drop") # strategies: "drop", "mean", "constant"
 StandardScaler()
 MinMaxScaler()
-FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
+MaxAbsScaler()
+OneHotEncoder()
+StandardNormalizer()
+DictVectorizer()
+CountVectorizer()
+TfidfTransformer()
+TfidfVectorizer()
 ```
 
 ## Create Custom Transformers

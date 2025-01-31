@@ -3,3 +3,1860 @@ CHATGPT conversations:
 https://chatgpt.com/share/6755688a-b914-8011-86fc-5862b8b02bf9
 
 https://chatgpt.com/share/675fc8ed-a008-8011-a499-5d0db890a04a
+
+https://chatgpt.com/share/679d0125-c7e0-8000-9e82-632bbf6e662f
+
+https://chatgpt.com/share/679d0141-ed70-8000-a4b4-9d45236ac381
+
+https://chatgpt.com/share/679d081d-8580-8002-97ef-c59367afc2f8
+
+https://chatgpt.com/share/679d0641-22cc-8002-9874-17380ae6ac96
+
+
+FHGenie conversations:
+X_bow = [
+        1  2  0  0
+        0  1  3  0
+        1  0  0  4
+    ]
+wie mache ich das als matrix{float64}
+ChatGPT said:
+ChatGPT
+Um sicherzustellen, dass deine X_bow-Matrix vom Typ Matrix{Float64} ist, kannst du sie explizit als Float64 anlegen. Hier sind zwei Methoden, um das zu erreichen:
+
+🔹 Lösung 1: Explizite Typangabe
+julia
+Copy
+Edit
+X_bow = Matrix{Float64}([
+    1  2  0  0
+    0  1  3  0
+    1  0  0  4
+])
+💡 Erklärung:
+
+Matrix{Float64}([...]) sorgt dafür, dass alle Werte als Float64 gespeichert werden.
+🔹 Lösung 2: Typumwandlung nach Erstellung
+Falls du bereits eine Matrix{Int} hast, kannst du sie nachträglich in Float64 konvertieren:
+
+julia
+Copy
+Edit
+X_bow = [
+    1  2  0  0
+    0  1  3  0
+    1  0  0  4
+]
+
+X_bow = Float64.(X_bow)  # Umwandlung in Matrix{Float64}
+💡 Erklärung:
+
+Float64.(X_bow) wendet Float64 auf jedes Element der Matrix an und konvertiert sie zu Matrix{Float64}.
+🔥 Jetzt hast du eine Matrix{Float64} für deine Tests!
+Falls du noch spezifische Anpassungen brauchst, sag Bescheid! 🚀
+
+
+
+
+
+
+
+You said:
+Testing Running tests...
+Fitting IDF Values: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:219
+  Got exception outside of a @test
+  MethodError: no method matching Vector{Float64}(::Matrix{Float64})
+  
+  You might have used a 2d row vector where a 1d column vector was required.
+  Note the difference between 1d column vector [1,2,3] and 2d row vector [1 2 3].
+  You can convert to a column vector with the vec() function.
+  
+  Closest candidates are:
+    Array{T, N}(::AbstractArray{S, N}) where {T, N, S}
+     @ Base array.jl:673
+    Vector{T}(::UndefInitializer, ::Tuple{Int64}) where T
+     @ Core boot.jl:486
+    Vector{T}(::UndefInitializer, ::Int64) where T
+     @ Core boot.jl:477
+    ...
+  
+  Stacktrace:
+    [1] convert(::Type{Vector{Float64}}, a::Matrix{Float64})
+      @ Base ./array.jl:665
+    [2] setproperty!
+      @ ./Base.jl:40 [inlined]
+    [3] fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:22
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:221 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:220 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [15] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [16] top-level scope
+      @ none:6
+   [17] eval
+      @ Core ./boot.jl:385 [inlined]
+   [18] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [19] _start()
+      @ Base ./client.jl:552
+TF-IDF Transformation: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:229
+  Got exception outside of a @test
+  MethodError: no method matching Vector{Float64}(::Matrix{Float64})
+  
+  You might have used a 2d row vector where a 1d column vector was required.
+  Note the difference between 1d column vector [1,2,3] and 2d row vector [1 2 3].
+  You can convert to a column vector with the vec() function.
+  
+  Closest candidates are:
+    Array{T, N}(::AbstractArray{S, N}) where {T, N, S}
+     @ Base array.jl:673
+    Vector{T}(::UndefInitializer, ::Tuple{Int64}) where T
+     @ Core boot.jl:486
+    Vector{T}(::UndefInitializer, ::Int64) where T
+     @ Core boot.jl:477
+    ...
+  
+  Stacktrace:
+    [1] convert(::Type{Vector{Float64}}, a::Matrix{Float64})
+      @ Base ./array.jl:665
+    [2] setproperty!
+      @ ./Base.jl:40 [inlined]
+    [3] fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:22
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:231 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:230 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [15] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [16] top-level scope
+      @ none:6
+   [17] eval
+      @ Core ./boot.jl:385 [inlined]
+   [18] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [19] _start()
+      @ Base ./client.jl:552
+Fit and Transform Consistency: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:244
+  Got exception outside of a @test
+  MethodError: no method matching Vector{Float64}(::Matrix{Float64})
+  
+  You might have used a 2d row vector where a 1d column vector was required.
+  Note the difference between 1d column vector [1,2,3] and 2d row vector [1 2 3].
+  You can convert to a column vector with the vec() function.
+  
+  Closest candidates are:
+    Array{T, N}(::AbstractArray{S, N}) where {T, N, S}
+     @ Base array.jl:673
+    Vector{T}(::UndefInitializer, ::Tuple{Int64}) where T
+     @ Core boot.jl:486
+    Vector{T}(::UndefInitializer, ::Int64) where T
+     @ Core boot.jl:477
+    ...
+  
+  Stacktrace:
+    [1] convert(::Type{Vector{Float64}}, a::Matrix{Float64})
+      @ Base ./array.jl:665
+    [2] setproperty!
+      @ ./Base.jl:40 [inlined]
+    [3] fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:22
+    [4] fit_transform!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:57
+    [5] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:246 [inlined]
+    [6] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [7] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:245 [inlined]
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [14] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [15] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [16] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [17] top-level scope
+      @ none:6
+   [18] eval
+      @ Core ./boot.jl:385 [inlined]
+   [19] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [20] _start()
+      @ Base ./client.jl:552
+Handling Empty Input: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:256
+  Got exception outside of a @test
+  MethodError: no method matching Vector{Float64}(::Matrix{Float64})
+  
+  You might have used a 2d row vector where a 1d column vector was required.
+  Note the difference between 1d column vector [1,2,3] and 2d row vector [1 2 3].
+  You can convert to a column vector with the vec() function.
+  
+  Closest candidates are:
+    Array{T, N}(::AbstractArray{S, N}) where {T, N, S}
+     @ Base array.jl:673
+    Vector{T}(::UndefInitializer, ::Tuple{Int64}) where T
+     @ Core boot.jl:486
+    Vector{T}(::UndefInitializer, ::Int64) where T
+     @ Core boot.jl:477
+    ...
+  
+  Stacktrace:
+    [1] convert(::Type{Vector{Float64}}, a::Matrix{Float64})
+      @ Base ./array.jl:665
+    [2] setproperty!
+      @ ./Base.jl:40 [inlined]
+    [3] fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:22
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:258 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:257 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [15] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [16] top-level scope
+      @ none:6
+   [17] eval
+      @ Core ./boot.jl:385 [inlined]
+   [18] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [19] _start()
+      @ Base ./client.jl:552
+Handling All-Zero Rows: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:266
+  Got exception outside of a @test
+  MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+  
+  Closest candidates are:
+    fit!(::Transformer, ::AbstractArray)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:32
+    fit!(::TfidfTransformer, ::Matrix{Float64})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:19
+    fit!(::MissingValueTransformer, ::Matrix)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/missing_value.jl:51
+    ...
+  
+  Stacktrace:
+    [1] fit!(transformer::TfidfTransformer, X::Matrix{Int64})
+      @ PreprocessingPipeline.TransformerModule ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:33
+    [2] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:274 [inlined]
+    [3] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:267 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [11] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ none:6
+   [15] eval
+      @ Core ./boot.jl:385 [inlined]
+   [16] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [17] _start()
+      @ Base ./client.jl:552
+Test Summary:                       | Pass  Error  Total  Time
+Feature Extraction Tests            |   30      5     35  3.5s
+  Tests for raw extraction methods  |    6             6  0.7s
+  Tests for text extraction methods |   24      5     29  2.8s
+    Tokenization Tests              |    2             2  0.1s
+    N-gram Generation Tests         |    4             4  0.1s
+    Vocabulary Extraction Tests     |    2             2  0.1s
+    Bag-of-Words Tests              |    3             3  0.1s
+    CountVectorizer Tests           |   13            13  0.8s
+    TfidfTransformer Tests          |           5      5  1.6s
+      Fitting IDF Values            |           1      1  1.3s
+      TF-IDF Transformation         |           1      1  0.1s
+      Fit and Transform Consistency |           1      1  0.1s
+      Handling Empty Input          |           1      1  0.1s
+      Handling All-Zero Rows        |           1      1  0.1s
+ERROR: LoadError: Some tests did not pass: 30 passed, 0 failed, 5 errored, 0 broken.
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:4
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+ERROR: Package PreprocessingPipeline errored during testing
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Types.jl:70
+ [2] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+   @ Pkg.Operations ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:2018
+ [3] test
+   @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:1899 [inlined]
+ [4] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::Base.TTY})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:444
+ [5] test(pkgs::Vector{Pkg.Types.PackageSpec}; io::Base.TTY, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:159
+ [6] test(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:148
+ [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:174
+ [8] test()
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:165
+ [9] top-level scope
+   @ REPL[3]:1
+ChatGPT said:
+ChatGPT
+Der Fehler liegt daran, dass in deiner fit!-Methode der idf-Vektor als Matrix{Float64} berechnet wird, aber du versuchst, ihn einem Vector{Float64} zuzuweisen.
+
+🔹 Fix für fit! in TfidfTransformer
+Ändere diese Zeile in der fit!-Funktion:
+
+julia
+Copy
+Edit
+tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # Formula from scikit-learn
+zu:
+
+julia
+Copy
+Edit
+tfidf.idf = vec(log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1)  # Konvertiere Matrix zu Vektor
+🔹 Warum?
+
+df = sum(X .> 0, dims=1) erzeugt eine 1xN-Matrix.
+log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1 bleibt eine 1xN-Matrix.
+vec(...) konvertiert sie in einen Vector{Float64}.
+Jetzt wird idf korrekt als Vektor gespeichert. 🚀
+
+🔹 Fix für transform in TfidfTransformer
+Falls der Fehler weiterhin auftritt, stelle sicher, dass du idf korrekt auf die tf-Matrix anwendest:
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)  # Sicherstellen, dass idf als Zeilenvektor angewandt wird
+🚀 Danach sollte dein TfidfTransformer korrekt arbeiten!
+Probiere es aus und sag mir, ob der Fehler behoben ist. ✅
+
+
+
+
+
+
+
+You said:
+Testing Running tests...
+Fitting IDF Values: Test Failed at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:225
+  Expression: size(tfidf.idf) == size(X_bow)
+   Evaluated: (4,) == (3, 4)
+
+Stacktrace:
+  [1] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:672 [inlined]
+  [2] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:225 [inlined]
+  [3] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [4] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:220 [inlined]
+  [5] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [6] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+  [7] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [8] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+  [9] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+ [10] top-level scope
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+Fitting IDF Values: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:226
+  Test threw exception
+  Expression: tfidf.idf ≈ expected_idf
+  DimensionMismatch: dimensions must match: a has dims (Base.OneTo(1), Base.OneTo(4)), b has dims (Base.OneTo(4),), mismatch at 1
+  Stacktrace:
+    [1] promote_shape
+      @ ./indices.jl:178 [inlined]
+    [2] promote_shape
+      @ ./indices.jl:174 [inlined]
+    [3] promote_shape(a::Vector{Float64}, b::Matrix{Float64})
+      @ Base ./indices.jl:169
+    [4] -(A::Vector{Float64}, B::Matrix{Float64})
+      @ Base ./arraymath.jl:7
+    [5] isapprox(x::Vector{Float64}, y::Matrix{Float64}; atol::Int64, rtol::Float64, nans::Bool, norm::typeof(norm))
+      @ LinearAlgebra ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/LinearAlgebra/src/generic.jl:1789
+    [6] isapprox(x::Vector{Float64}, y::Matrix{Float64})
+      @ LinearAlgebra ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/LinearAlgebra/src/generic.jl:1785
+    [7] eval_test(evaluated::Expr, quoted::Expr, source::LineNumberNode, negate::Bool)
+      @ Test ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:355
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:669 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:226 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:220 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [16] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+TF-IDF Transformation: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:229
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ ./broadcast.jl:306 [inlined]
+    [6] materialize
+      @ ./broadcast.jl:903 [inlined]
+    [7] transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:40
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:232 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:230 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [13] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [14] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [15] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [16] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [17] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [18] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [19] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [20] top-level scope
+      @ none:6
+   [21] eval
+      @ Core ./boot.jl:385 [inlined]
+   [22] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [23] _start()
+      @ Base ./client.jl:552
+Fit and Transform Consistency: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:244
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ ./broadcast.jl:306 [inlined]
+    [6] materialize
+      @ ./broadcast.jl:903 [inlined]
+    [7] transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:40
+    [8] fit_transform!(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:58
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:246 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:245 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [16] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [18] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [19] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [20] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [21] top-level scope
+      @ none:6
+   [22] eval
+      @ Core ./boot.jl:385 [inlined]
+   [23] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [24] _start()
+      @ Base ./client.jl:552
+Handling Empty Input: Test Failed at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:260
+  Expression: isempty(tfidf.idf)
+   Evaluated: isempty([1.0, 1.0, 1.0, 1.0])
+
+Stacktrace:
+  [1] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:672 [inlined]
+  [2] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:260 [inlined]
+  [3] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [4] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:257 [inlined]
+  [5] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [6] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+  [7] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [8] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+  [9] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+ [10] top-level scope
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+Handling Empty Input: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:256
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 0 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ ./broadcast.jl:306 [inlined]
+    [6] materialize
+      @ ./broadcast.jl:903 [inlined]
+    [7] transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:40
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:262 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:257 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [13] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [14] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [15] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [16] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [17] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [18] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [19] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [20] top-level scope
+      @ none:6
+   [21] eval
+      @ Core ./boot.jl:385 [inlined]
+   [22] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [23] _start()
+      @ Base ./client.jl:552
+Handling All-Zero Rows: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:266
+  Got exception outside of a @test
+  MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+  
+  Closest candidates are:
+    fit!(::Transformer, ::AbstractArray)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:32
+    fit!(::TfidfTransformer, ::Matrix{Float64})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:19
+    fit!(::StandardScaler, ::Matrix{<:Real}, ::Vector{Any})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/standard_scaler.jl:53
+    ...
+  
+  Stacktrace:
+    [1] fit!(transformer::TfidfTransformer, X::Matrix{Int64})
+      @ PreprocessingPipeline.TransformerModule ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:33
+    [2] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:274 [inlined]
+    [3] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:267 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [11] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ none:6
+   [15] eval
+      @ Core ./boot.jl:385 [inlined]
+   [16] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [17] _start()
+      @ Base ./client.jl:552
+Test Summary:                       | Pass  Fail  Error  Total  Time
+Feature Extraction Tests            |   30     2      5     37  4.4s
+  Tests for raw extraction methods  |    6                   6  0.7s
+  Tests for text extraction methods |   24     2      5     31  3.7s
+    Tokenization Tests              |    2                   2  0.1s
+    N-gram Generation Tests         |    4                   4  0.1s
+    Vocabulary Extraction Tests     |    2                   2  0.1s
+    Bag-of-Words Tests              |    3                   3  0.1s
+    CountVectorizer Tests           |   13                  13  0.8s
+    TfidfTransformer Tests          |          2      5      7  2.6s
+      Fitting IDF Values            |          1      1      2  1.6s
+      TF-IDF Transformation         |                 1      1  0.4s
+      Fit and Transform Consistency |                 1      1  0.1s
+      Handling Empty Input          |          1      1      2  0.1s
+      Handling All-Zero Rows        |                 1      1  0.4s
+ERROR: LoadError: Some tests did not pass: 30 passed, 2 failed, 5 errored, 0 broken.
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:4
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+ERROR: Package PreprocessingPipeline errored during testing
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Types.jl:70
+ [2] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+   @ Pkg.Operations ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:2018
+ [3] test
+   @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:1899 [inlined]
+ [4] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::Base.TTY})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:444
+ [5] test(pkgs::Vector{Pkg.Types.PackageSpec}; io::Base.TTY, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:159
+ [6] test(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:148
+ [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:174
+ [8] test()
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:165
+ [9] top-level scope
+   @ REPL[3]:1
+ChatGPT said:
+ChatGPT
+🚀 Fehlersuche & Fix für TfidfTransformer
+Die Hauptprobleme in deinem Code basieren auf Dimensionsfehlern zwischen tfidf.idf, der Bag-of-Words-Matrix (X) und der Transformationslogik.
+
+🔹 1. Fix für fit!: Korrekte Dimension für idf
+In deiner fit!-Funktion gibt es diesen Code:
+
+julia
+Copy
+Edit
+tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # Formula from scikit-learn
+Aber:
+
+df = sum(X .> 0, dims=1) erzeugt eine 1×N-Matrix.
+Du erwartest aber einen Vector{Float64} der Länge N.
+✅ Fix:
+Konvertiere idf in einen 1D-Vektor:
+
+julia
+Copy
+Edit
+tfidf.idf = vec(log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1)
+🔹 2. Fix für transform: Broadcasting Fehler beheben
+Hier ist dein fehlerhafter Code in transform:
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* tfidf.idf  # DimensionMismatch Fehler
+tfidf.idf ist ein Vector{Float64}, aber tf ist eine Matrix.
+Julia erlaubt kein Broadcasting von Vector{Float64} auf eine Matrix.
+✅ Fix:
+Benutze reshape oder permutedims, um die IDF-Werte als Zeilenvektor (1×N-Matrix) zu setzen:
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)
+Oder alternativ:
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* tfidf.idf'  # ' transponiert den Vektor zu einer Zeile
+🔹 3. Fix für Handling Empty Input
+Du erwartest:
+
+julia
+Copy
+Edit
+@test isempty(tfidf.idf)
+Aber idf enthält stattdessen [1.0, 1.0, 1.0, 1.0].
+
+✅ Fix:
+Falls X leer ist, sollte idf ebenfalls leer sein:
+
+julia
+Copy
+Edit
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    n_documents = size(X, 1)
+    df = sum(X .> 0, dims=1)
+    tfidf.idf = vec(log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1)
+    return tfidf
+end
+🔹 4. Fix für Handling All-Zero Rows
+Fehler:
+
+julia
+Copy
+Edit
+MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+🚀 Lösung: Stelle sicher, dass X eine Matrix{Float64} ist:
+
+julia
+Copy
+Edit
+X = float(X)  # Konvertiere zu Float64, falls nötig
+🔥 Endgültige korrigierte Version von TfidfTransformer
+julia
+Copy
+Edit
+mutable struct TfidfTransformer <: BaseTextExtractor
+    idf::Vector{Float64}
+
+    TfidfTransformer() = new([])
+end
+
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Sicherstellen, dass es Float64 ist
+    n_documents = size(X, 1)
+    df = sum(X .> 0, dims=1)
+    tfidf.idf = vec(log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1)
+    return tfidf
+end
+
+function transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        return X  # Gib eine leere Matrix zurück
+    end
+    tf = X ./ sum(X, dims=2)  # Berechne TF
+    tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)  # Broadcasting fix
+    return tfidf_matrix
+end
+
+function fit_transform!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    fit!(tfidf, X)
+    return transform(tfidf, X)
+end
+🚀 Jetzt sollten alle Tests fehlerfrei laufen! ✅
+Probier’s aus und sag mir, ob es funktioniert! 🎯
+
+
+
+
+
+
+
+You said:
+Noch habe ich einen failed test und 4 errors:
+ Testing Running tests...
+Fitting IDF Values: Test Failed at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:225
+  Expression: size(tfidf.idf) == size(X_bow)
+   Evaluated: (4,) == (3, 4)
+
+Stacktrace:
+  [1] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:672 [inlined]
+  [2] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:225 [inlined]
+  [3] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [4] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:220 [inlined]
+  [5] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [6] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+  [7] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [8] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+  [9] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+ [10] top-level scope
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+Fitting IDF Values: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:226
+  Test threw exception
+  Expression: tfidf.idf ≈ expected_idf
+  DimensionMismatch: dimensions must match: a has dims (Base.OneTo(1), Base.OneTo(4)), b has dims (Base.OneTo(4),), mismatch at 1
+  Stacktrace:
+    [1] promote_shape
+      @ ./indices.jl:178 [inlined]
+    [2] promote_shape
+      @ ./indices.jl:174 [inlined]
+    [3] promote_shape(a::Vector{Float64}, b::Matrix{Float64})
+      @ Base ./indices.jl:169
+    [4] -(A::Vector{Float64}, B::Matrix{Float64})
+      @ Base ./arraymath.jl:7
+    [5] isapprox(x::Vector{Float64}, y::Matrix{Float64}; atol::Int64, rtol::Float64, nans::Bool, norm::typeof(norm))
+      @ LinearAlgebra ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/LinearAlgebra/src/generic.jl:1789
+    [6] isapprox(x::Vector{Float64}, y::Matrix{Float64})
+      @ LinearAlgebra ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/LinearAlgebra/src/generic.jl:1785
+    [7] eval_test(evaluated::Expr, quoted::Expr, source::LineNumberNode, negate::Bool)
+      @ Test ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:355
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:669 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:226 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:220 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [16] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+TF-IDF Transformation: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:229
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ Base.Broadcast ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ Base.Broadcast ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ Base.Broadcast ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ Base.Broadcast ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ Base.Broadcast ./broadcast.jl:306 [inlined]
+    [6] materialize(bc::Base.Broadcast.Broadcasted{Base.Broadcast.DefaultArrayStyle{2}, Nothing, typeof(*), Tuple{Matrix{Float64}, Vector{Float64}}})
+      @ Base.Broadcast ./broadcast.jl:903
+    [7] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:238 [inlined]
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:230 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [16] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [18] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [19] top-level scope
+      @ none:6
+   [20] eval
+      @ Core ./boot.jl:385 [inlined]
+   [21] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [22] _start()
+      @ Base ./client.jl:552
+Handling Empty Input: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:256
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 4 and 0
+  Stacktrace:
+    [1] _bcs1
+      @ ./broadcast.jl:555 [inlined]
+    [2] _bcs (repeats 2 times)
+      @ ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ ./broadcast.jl:306 [inlined]
+    [6] materialize
+      @ ./broadcast.jl:903 [inlined]
+    [7] transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:44
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:262 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:257 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [13] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [14] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [15] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [16] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [17] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [18] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [19] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [20] top-level scope
+      @ none:6
+   [21] eval
+      @ Core ./boot.jl:385 [inlined]
+   [22] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [23] _start()
+      @ Base ./client.jl:552
+Handling All-Zero Rows: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:266
+  Got exception outside of a @test
+  MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+  
+  Closest candidates are:
+    fit!(::Transformer, ::AbstractArray)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:32
+    fit!(::MinMaxScaler, ::Matrix{<:Real}, ::Vector{Any})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/min_max_scaler.jl:53
+    fit!(::MinMaxScaler, ::Matrix{<:Real})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/min_max_scaler.jl:53
+    ...
+  
+  Stacktrace:
+    [1] fit!(transformer::TfidfTransformer, X::Matrix{Int64})
+      @ PreprocessingPipeline.TransformerModule ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:33
+    [2] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:274 [inlined]
+    [3] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:267 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [11] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ none:6
+   [15] eval
+      @ Core ./boot.jl:385 [inlined]
+   [16] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [17] _start()
+      @ Base ./client.jl:552
+Test Summary:                       | Pass  Fail  Error  Total  Time
+Feature Extraction Tests            |   33     1      4     38  4.6s
+  Tests for raw extraction methods  |    6                   6  0.7s
+  Tests for text extraction methods |   27     1      4     32  3.9s
+    Tokenization Tests              |    2                   2  0.1s
+    N-gram Generation Tests         |    4                   4  0.1s
+    Vocabulary Extraction Tests     |    2                   2  0.1s
+    Bag-of-Words Tests              |    3                   3  0.1s
+    CountVectorizer Tests           |   13                  13  0.8s
+    TfidfTransformer Tests          |    3     1      4      8  2.8s
+      Fitting IDF Values            |          1      1      2  1.6s
+      TF-IDF Transformation         |                 1      1  0.6s
+      Fit and Transform Consistency |    2                   2  0.1s
+      Handling Empty Input          |    1            1      2  0.1s
+      Handling All-Zero Rows        |                 1      1  0.4s
+ERROR: LoadError: Some tests did not pass: 33 passed, 1 failed, 4 errored, 0 broken.
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:4
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+ERROR: Package PreprocessingPipeline errored during testing
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Types.jl:70
+ [2] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+   @ Pkg.Operations ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:2018
+ [3] test
+   @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:1899 [inlined]
+ [4] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::Base.TTY})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:444
+ [5] test(pkgs::Vector{Pkg.Types.PackageSpec}; io::Base.TTY, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:159
+ [6] test(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:148
+ [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:174
+ [8] test()
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:165
+ [9] top-level scope
+   @ REPL[3]:1
+ChatGPT said:
+ChatGPT
+Die Fehler sind weiterhin auf Dimensionierungsprobleme zurückzuführen. Lass uns die Probleme Schritt für Schritt beheben.
+
+🚀 Problem 1: size(tfidf.idf) == size(X_bow) schlägt fehl
+Fehlermeldung:
+
+julia
+Copy
+Edit
+Expression: size(tfidf.idf) == size(X_bow)
+Evaluated: (4,) == (3, 4)
+tfidf.idf hat die Form (4,), also eine 1D-Vektor-Länge 4.
+X_bow hat die Form (3,4), also eine Matrix mit 3 Zeilen und 4 Spalten.
+Fix: Die IDF-Werte sollen einen Vektor der Länge N (Anzahl der Spalten in X) haben, also (4,) wenn X (3,4) ist.
+Falls size(X, 2) != length(tfidf.idf), überprüfe die Berechnung von idf.
+
+🔹 Aktualisierte fit! Methode:
+
+julia
+Copy
+Edit
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Sicherstellen, dass es Float64 ist
+    n_documents = size(X, 1)  # Anzahl der Dokumente (Zeilen)
+    df = vec(sum(X .> 0, dims=1))  # Anzahl der Dokumente pro Feature (Spalte)
+    
+    tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # IDF-Berechnung
+    return tfidf
+end
+🚀 Problem 2: tfidf.idf ≈ expected_idf schlägt fehl
+Fehlermeldung:
+
+julia
+Copy
+Edit
+dimensions must match: a has dims (Base.OneTo(1), Base.OneTo(4)), b has dims (Base.OneTo(4),)
+tfidf.idf ist 1×4 Matrix ((1,4))
+expected_idf ist 4er Vektor ((4,))
+🔹 Fix:
+Konvertiere idf explizit in einen Vektor:
+
+julia
+Copy
+Edit
+tfidf.idf = vec(log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1)
+🚀 Problem 3: transform hat Dimensionierungsfehler
+Fehlermeldung:
+
+julia
+Copy
+Edit
+DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+tfidf.idf ist (4,)
+tf ist (3,4)
+🔹 Fix:
+Verwende Broadcasting, um idf korrekt zu multiplizieren:
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* tfidf.idf'  # Transponiere IDF, um Zeilenweise Multiplikation zu ermöglichen
+ODER
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)
+🚀 Problem 4: Fehler mit Handling Empty Input
+Fehlermeldung:
+
+julia
+Copy
+Edit
+DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 4 and 0
+idf ist length 4, aber X ist leer.
+🔹 Fix:
+Falls X leer ist, gib eine leere Matrix zurück:
+
+julia
+Copy
+Edit
+if isempty(X)
+    return zeros(Float64, 0, length(tfidf.idf))  # Leere Matrix mit passender Spaltenzahl
+end
+🚀 Problem 5: Handling All-Zero Rows gibt Matrix{Int64} statt Matrix{Float64}
+Fehlermeldung:
+
+julia
+Copy
+Edit
+MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+X ist Matrix{Int64}, aber fit! erwartet Matrix{Float64}.
+🔹 Fix:
+Konvertiere X explizit zu Float64:
+
+julia
+Copy
+Edit
+X = float(X)
+🔥 Finale Version von TfidfTransformer
+julia
+Copy
+Edit
+mutable struct TfidfTransformer <: BaseTextExtractor
+    idf::Vector{Float64}
+
+    TfidfTransformer() = new([])
+end
+
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Sicherstellen, dass es Float64 ist
+    n_documents = size(X, 1)
+    df = vec(sum(X .> 0, dims=1))  # Dokumenthäufigkeit als 1D-Vektor
+
+    tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # IDF-Berechnung
+    return tfidf
+end
+
+function transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        return zeros(Float64, 0, length(tfidf.idf))  # Leere Matrix zurückgeben
+    end
+    tf = X ./ sum(X, dims=2)  # Berechne TF
+    tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)  # Broadcasting fix
+    return tfidf_matrix
+end
+
+function fit_transform!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    fit!(tfidf, X)
+    return transform(tfidf, X)
+end
+✅ Erwartetes Ergebnis nach Fixes
+Alle Dimensionierungsfehler werden behoben 🛠️
+Tests sollten jetzt sauber durchlaufen 🟢
+Leere Inputs und Matrix{Int64} werden korrekt behandelt 🎯
+🚀 Teste es nochmal und sag mir, ob alles funktioniert! 🎉
+
+
+
+
+
+
+
+You said:
+Testing Running tests...
+TFIDF: [1.2876820724517808, 1.2876820724517808, 1.6931471805599454, 1.6931471805599454]
+Expected: [1.2876820724517808, 1.2876820724517808, 1.6931471805599454, 1.6931471805599454]
+TF-IDF Transformation: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:230
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ Base.Broadcast ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ Base.Broadcast ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ Base.Broadcast ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ Base.Broadcast ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ Base.Broadcast ./broadcast.jl:306 [inlined]
+    [6] materialize(bc::Base.Broadcast.Broadcasted{Base.Broadcast.DefaultArrayStyle{2}, Nothing, typeof(*), Tuple{Matrix{Float64}, Vector{Float64}}})
+      @ Base.Broadcast ./broadcast.jl:903
+    [7] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:239 [inlined]
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:231 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [16] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [18] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [19] top-level scope
+      @ none:6
+   [20] eval
+      @ Core ./boot.jl:385 [inlined]
+   [21] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [22] _start()
+      @ Base ./client.jl:552
+Handling Empty Input: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:257
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 4 and 0
+  Stacktrace:
+    [1] _bcs1
+      @ ./broadcast.jl:555 [inlined]
+    [2] _bcs (repeats 2 times)
+      @ ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ ./broadcast.jl:306 [inlined]
+    [6] materialize
+      @ ./broadcast.jl:903 [inlined]
+    [7] transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+      @ PreprocessingPipeline.FeatureExtraction ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/feature_extraction/text/tfidf_transformer.jl:44
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:263 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:258 [inlined]
+   [11] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [12] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [13] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [14] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [15] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [16] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [17] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [18] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [19] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [20] top-level scope
+      @ none:6
+   [21] eval
+      @ Core ./boot.jl:385 [inlined]
+   [22] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [23] _start()
+      @ Base ./client.jl:552
+Handling All-Zero Rows: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:267
+  Got exception outside of a @test
+  MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+  
+  Closest candidates are:
+    fit!(::Transformer, ::AbstractArray)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:32
+    fit!(::MinMaxScaler, ::Matrix{<:Real}, ::Vector{Any})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/min_max_scaler.jl:53
+    fit!(::MinMaxScaler, ::Matrix{<:Real})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/min_max_scaler.jl:53
+    ...
+  
+  Stacktrace:
+    [1] fit!(transformer::TfidfTransformer, X::Matrix{Int64})
+      @ PreprocessingPipeline.TransformerModule ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:33
+    [2] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:275 [inlined]
+    [3] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:268 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [11] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ none:6
+   [15] eval
+      @ Core ./boot.jl:385 [inlined]
+   [16] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [17] _start()
+      @ Base ./client.jl:552
+Test Summary:                       | Pass  Error  Total  Time
+Feature Extraction Tests            |   35      3     38  4.4s
+  Tests for raw extraction methods  |    6             6  0.7s
+  Tests for text extraction methods |   29      3     32  3.7s
+    Tokenization Tests              |    2             2  0.1s
+    N-gram Generation Tests         |    4             4  0.1s
+    Vocabulary Extraction Tests     |    2             2  0.2s
+    Bag-of-Words Tests              |    3             3  0.1s
+    CountVectorizer Tests           |   13            13  0.8s
+    TfidfTransformer Tests          |    5      3      8  2.5s
+      Fitting IDF Values            |    2             2  0.9s
+      TF-IDF Transformation         |           1      1  1.1s
+      Fit and Transform Consistency |    2             2  0.0s
+      Handling Empty Input          |    1      1      2  0.1s
+      Handling All-Zero Rows        |           1      1  0.4s
+ERROR: LoadError: Some tests did not pass: 35 passed, 0 failed, 3 errored, 0 broken.
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:4
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+ERROR: Package PreprocessingPipeline errored during testing
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Types.jl:70
+ [2] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+   @ Pkg.Operations ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:2018
+ [3] test
+   @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:1899 [inlined]
+ [4] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::Base.TTY})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:444
+ [5] test(pkgs::Vector{Pkg.Types.PackageSpec}; io::Base.TTY, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:159
+ [6] test(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:148
+ [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:174
+ [8] test()
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:165
+ [9] top-level scope
+   @ REPL[3]:1
+
+Was fehlt jetzt noch?
+ChatGPT said:
+ChatGPT
+🔍 Analyse der verbleibenden Fehler
+Du hast jetzt 3 Fehler, alle hängen mit Dimensionierungsproblemen in transform des TfidfTransformer zusammen.
+Lass uns die Probleme gezielt identifizieren und beheben.
+
+❌ 1. Fehler: TF-IDF Transformation (broadcasting error)
+Fehlermeldung:
+
+julia
+Copy
+Edit
+DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+➡️ tf hat die Form (3,4), aber tfidf.idf hat die Form (4,).
+Broadcasting schlägt fehl, weil tfidf.idf nicht explizit in die passende Matrix-Form umgewandelt wurde.
+
+Fix: 👉 Verwende reshape(tfidf.idf, 1, :), um idf in eine 1×N Matrix umzuwandeln.
+
+julia
+Copy
+Edit
+tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)
+Das sorgt dafür, dass Julia Zeilenweise multipliziert.
+
+❌ 2. Fehler: Handling von leerer Eingabe (Handling Empty Input)
+Fehlermeldung:
+
+julia
+Copy
+Edit
+DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 4 and 0
+➡️ X ist eine leere Matrix (0,4), aber tfidf.idf ist (4,).
+Das bedeutet, dass idf nicht auf eine leere Matrix angewendet werden kann.
+
+Fix: 👉 Falls X leer ist, return eine passende leere Matrix (0, size(tfidf.idf, 1)):
+
+julia
+Copy
+Edit
+if isempty(X)
+    return zeros(Float64, 0, length(tfidf.idf))
+end
+❌ 3. Fehler: Handling All-Zero Rows gibt Matrix{Int64} statt Matrix{Float64} zurück
+Fehlermeldung:
+
+julia
+Copy
+Edit
+MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+➡️ X ist vom Typ Matrix{Int64}, aber fit! erwartet Matrix{Float64}.
+
+Fix: 👉 Konvertiere X explizit zu Float64:
+
+julia
+Copy
+Edit
+X = float(X)
+Das stellt sicher, dass alle Berechnungen mit Float64 ausgeführt werden.
+
+🔥 Finale Version von TfidfTransformer (mit Fixes)
+julia
+Copy
+Edit
+mutable struct TfidfTransformer <: BaseTextExtractor
+    idf::Vector{Float64}
+
+    TfidfTransformer() = new([])
+end
+
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Sicherstellen, dass es Float64 ist
+    n_documents = size(X, 1)
+    df = vec(sum(X .> 0, dims=1))  # Dokumenthäufigkeit als 1D-Vektor
+
+    tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # IDF-Berechnung
+    return tfidf
+end
+
+function transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        return zeros(Float64, 0, length(tfidf.idf))  # Leere Matrix mit passender Spaltenzahl
+    end
+    X = float(X)  # Sicherstellen, dass X Float64 ist
+    tf = X ./ sum(X, dims=2)  # Berechne TF
+    tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)  # Broadcasting fix für Multiplikation
+
+    return tfidf_matrix
+end
+
+function fit_transform!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    fit!(tfidf, X)
+    return transform(tfidf, X)
+end
+✅ Erwartetes Ergebnis nach Fixes
+TF-IDF Transformation funktioniert jetzt mit korrektem Broadcasting 🎯
+Handling von leerer Eingabe (isempty(X)) gibt eine passende leere Matrix zurück 🛠️
+X wird immer zu Float64 konvertiert, um Fehler mit Matrix{Int64} zu vermeiden 🚀
+Teste es jetzt nochmal! Ich bin gespannt, ob alle Fehler weg sind! 🎉
+
+
+
+
+
+
+
+You said:
+tfidf\_matrix = tf .\* reshape(tfidf.idf, 1, :)
+
+wohin dieser fix? ind die test datei oder in die modul datei?
+ChatGPT said:
+ChatGPT
+Dieser Fix gehört in die Modul-Datei (tfidf_transformer.jl), da er die Implementierung des TfidfTransformer korrigiert.
+
+🚀 Fixes in die Modul-Datei einfügen:
+Öffne src/feature_extraction/text/tfidf_transformer.jl und ändere die fit! und transform Funktionen dort.
+Du ersetzt in der Modul-Datei (tfidf_transformer.jl) den fehlerhaften Code durch diesen:
+
+julia
+Copy
+Edit
+function fit!(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Sicherstellen, dass es Float64 ist
+    n_documents = size(X, 1)
+    df = vec(sum(X .> 0, dims=1))  # Dokumenthäufigkeit als 1D-Vektor
+
+    tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # IDF-Berechnung
+    return tfidf
+end
+
+function transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        return zeros(Float64, 0, length(tfidf.idf))  # Leere Matrix mit passender Spaltenzahl
+    end
+    X = float(X)  # Sicherstellen, dass X Float64 ist
+    tf = X ./ sum(X, dims=2)  # Berechne TF
+    tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)  # Fix für korrekte Broadcasting-Multiplikation
+
+    return tfidf_matrix
+end
+🔍 Was bleibt in der Test-Datei?
+Die Test-Datei (test_feature_extraction.jl) bleibt unverändert.
+Nachdem du den Fix in die Modul-Datei eingefügt hast, kannst du in der Test-Datei einfach die Tests erneut ausführen:
+
+julia
+Copy
+Edit
+using Test
+@testset "TF-IDF Transformation" begin
+    # Dein Code für TF-IDF Tests bleibt hier unverändert!
+end
+🚀 Als nächstes: Tests neu ausführen
+Starte die Tests neu, um zu sehen, ob alle Fehler verschwunden sind:
+
+sh
+Copy
+Edit
+julia --project
+] test
+Falls immer noch Fehler auftauchen, poste die neuen Logs, dann fixen wir das gemeinsam! 🎯🔥
+
+
+
+
+
+
+
+You said:
+Testing Running tests...
+TF-IDF Transformation: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:228
+  Got exception outside of a @test
+  DimensionMismatch: arrays could not be broadcast to a common size; got a dimension with lengths 3 and 4
+  Stacktrace:
+    [1] _bcs1
+      @ Base.Broadcast ./broadcast.jl:555 [inlined]
+    [2] _bcs
+      @ Base.Broadcast ./broadcast.jl:549 [inlined]
+    [3] broadcast_shape
+      @ Base.Broadcast ./broadcast.jl:543 [inlined]
+    [4] combine_axes
+      @ Base.Broadcast ./broadcast.jl:524 [inlined]
+    [5] instantiate
+      @ Base.Broadcast ./broadcast.jl:306 [inlined]
+    [6] materialize(bc::Base.Broadcast.Broadcasted{Base.Broadcast.DefaultArrayStyle{2}, Nothing, typeof(*), Tuple{Matrix{Float64}, Vector{Float64}}})
+      @ Base.Broadcast ./broadcast.jl:903
+    [7] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:235 [inlined]
+    [8] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [9] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:229 [inlined]
+   [10] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [11] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+   [12] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [13] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+   [14] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [15] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [16] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [17] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [18] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [19] top-level scope
+      @ none:6
+   [20] eval
+      @ Core ./boot.jl:385 [inlined]
+   [21] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [22] _start()
+      @ Base ./client.jl:552
+Handling Empty Input: Test Failed at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:261
+  Expression: size(X_tfidf) == (0, 4)
+   Evaluated: (0, 0) == (0, 4)
+
+Stacktrace:
+  [1] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:672 [inlined]
+  [2] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:261 [inlined]
+  [3] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [4] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:255 [inlined]
+  [5] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [6] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+  [7] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+  [8] macro expansion
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+  [9] macro expansion
+    @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+ [10] top-level scope
+    @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+Handling All-Zero Rows: Error During Test at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:264
+  Got exception outside of a @test
+  MethodError: no method matching fit!(::TfidfTransformer, ::Matrix{Int64})
+  
+  Closest candidates are:
+    fit!(::Transformer, ::AbstractArray)
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:32
+    fit!(::MaxAbsScaler, ::Matrix{<:Real}, ::Vector{Any})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/max_abs_scaler.jl:47
+    fit!(::MaxAbsScaler, ::Matrix{<:Real})
+     @ PreprocessingPipeline ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/preprocessing/scaler/max_abs_scaler.jl:47
+    ...
+  
+  Stacktrace:
+    [1] fit!(transformer::TfidfTransformer, X::Matrix{Int64})
+      @ PreprocessingPipeline.TransformerModule ~/Documents/personal/wise2425/juml/data-preprocessing-juml/src/Transformer.jl:33
+    [2] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:272 [inlined]
+    [3] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [4] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:265 [inlined]
+    [5] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [6] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:207 [inlined]
+    [7] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+    [8] macro expansion
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:68 [inlined]
+    [9] macro expansion
+      @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Test/src/Test.jl:1577 [inlined]
+   [10] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:5
+   [11] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [12] top-level scope
+      @ ~/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+   [13] include(fname::String)
+      @ Base.MainInclude ./client.jl:489
+   [14] top-level scope
+      @ none:6
+   [15] eval
+      @ Core ./boot.jl:385 [inlined]
+   [16] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:291
+   [17] _start()
+      @ Base ./client.jl:552
+Test Summary:                       | Pass  Fail  Error  Total  Time
+Feature Extraction Tests            |   35     1      2     38  4.3s
+  Tests for raw extraction methods  |    6                   6  0.7s
+  Tests for text extraction methods |   29     1      2     32  3.6s
+    Tokenization Tests              |    2                   2  0.1s
+    N-gram Generation Tests         |    4                   4  0.1s
+    Vocabulary Extraction Tests     |    2                   2  0.1s
+    Bag-of-Words Tests              |    3                   3  0.1s
+    CountVectorizer Tests           |   13                  13  0.8s
+    TfidfTransformer Tests          |    5     1      2      8  2.5s
+      Fitting IDF Values            |    2                   2  0.7s
+      TF-IDF Transformation         |                 1      1  1.1s
+      Fit and Transform Consistency |    2                   2  0.0s
+      Handling Empty Input          |    1     1             2  0.2s
+      Handling All-Zero Rows        |                 1      1  0.4s
+ERROR: LoadError: Some tests did not pass: 35 passed, 1 failed, 2 errored, 0 broken.
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/test_feature_extraction.jl:4
+in expression starting at /home/cole/Documents/personal/wise2425/juml/data-preprocessing-juml/test/runtests.jl:7
+ERROR: Package PreprocessingPipeline errored during testing
+Stacktrace:
+ [1] pkgerror(msg::String)
+   @ Pkg.Types ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Types.jl:70
+ [2] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+   @ Pkg.Operations ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:2018
+ [3] test
+   @ ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/Operations.jl:1899 [inlined]
+ [4] test(ctx::Pkg.Types.Context, pkgs::Vector{Pkg.Types.PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::Base.TTY})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:444
+ [5] test(pkgs::Vector{Pkg.Types.PackageSpec}; io::Base.TTY, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:159
+ [6] test(pkgs::Vector{Pkg.Types.PackageSpec})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:148
+ [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::Pkg.Types.PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:174
+ [8] test()
+   @ Pkg.API ~/.julia/juliaup/julia-1.10.0+0.x64.linux.gnu/share/julia/stdlib/v1.10/Pkg/src/API.jl:165
+ [9] top-level scope
+   @ REPL[3]:1
+ChatGPT said:
+ChatGPT
+🔍 Fehleranalyse & Fixes für TfidfTransformer
+Du hast noch 2 Fehler:
+
+DimensionMismatch beim TF-IDF Transformationstest
+Ursache: Broadcasting-Problem zwischen Matrix{Float64} und Vector{Float64}.
+Handling Empty Input schlägt fehl (size(X_tfidf) == (0, 4))
+Ursache: Das TF-IDF-Modell gibt eine (0, 0)-Matrix zurück, statt (0, 4).
+🚀 Fix für tfidf_transformer.jl
+Öffne src/feature_extraction/text/tfidf_transformer.jl und aktualisiere transform.
+
+julia
+Copy
+Edit
+function transform(tfidf::TfidfTransformer, X::Matrix{Float64})
+    if isempty(X)
+        return zeros(Float64, 0, length(tfidf.idf))  # Leere Matrix mit richtiger Spaltenanzahl
+    end
+    X = float(X)  # Sicherstellen, dass X Float64 ist
+    tf = X ./ sum(X, dims=2)  # TF-Normalisierung
+
+    # Reshape `idf`, damit das Broadcasting funktioniert: (1, n_features)
+    tfidf_matrix = tf .* reshape(tfidf.idf, 1, :)
+
+    return tfidf_matrix
+end
+✅ Warum dieser Fix?
+
+reshape(tfidf.idf, 1, :) sorgt dafür, dass idf die richtige Form hat (eine Zeile mit n Spalten).
+Falls X leer ist, gibt es eine (0, n_features)-Matrix zurück.
+🛠 Fix für Handling All-Zero Rows
+Das Problem liegt daran, dass fit! keine Matrix{Int64} akzeptiert, weil es eine Matrix{Float64} erwartet.
+Aktualisiere fit! in der Modul-Datei:
+
+julia
+Copy
+Edit
+function fit!(tfidf::TfidfTransformer, X::AbstractMatrix{<:Real})
+    if isempty(X)
+        tfidf.idf = Float64[]
+        return tfidf
+    end
+    X = float(X)  # Konvertiere X zu Float64
+    n_documents = size(X, 1)
+    df = vec(sum(X .> 0, dims=1))  # Dokumenthäufigkeit als 1D-Array
+
+    tfidf.idf = log.((n_documents .+ 1) ./ (df .+ 1)) .+ 1  # IDF-Formel
+    return tfidf
+end
+✅ Warum dieser Fix?
+
+AbstractMatrix{<:Real} erlaubt sowohl Matrix{Float64} als auch Matrix{Int64}.
+float(X) stellt sicher, dass X vom Typ Float64 ist.
+🚀 Als nächstes: Tests ausführen
+sh
+Copy
+Edit
+julia --project
+] test
+
