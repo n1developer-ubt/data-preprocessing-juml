@@ -25,6 +25,17 @@ StandardNormalizer
 ```
 
 ## Feature Extraction
+### Feature Extraction from Dictionaries
+```@docs
+DictVectorizer
+```
+
+### Feature Extraction from Text
+```@docs
+CountVectorizer
+TfidfTransformer
+TfidfVectorizer
+```
 
 ## Missing Values
 ```@docs
