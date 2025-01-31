@@ -5,7 +5,7 @@ export MissingValueTransformer, fit!, transform
 import ..TransformerModule: Transformer, fit!, transform
 
 """
-    MissingValueTransformer(strategy::String="drop", constant_value::Any=nothing)
+    MissingValueTransformer(strategy::String="drop", constant_value::Union{Number, String}=0)
 
 Transformer for handling missing values using different strategies:
 - "drop": Remove rows with missing values
@@ -14,7 +14,7 @@ Transformer for handling missing values using different strategies:
 
 # Arguments
 - `strategy::String`: Strategy to handle missing values ("drop", "mean", or "constant")
-- `constant_value::Any`: Value to use when strategy is "constant"
+- `constant_value::Union{Number, String}`: Value to use when strategy is "constant"
 
 # Returns
 - `MissingValueTransformer`: A transformer object with the specified strategy and constant value
@@ -22,13 +22,13 @@ Transformer for handling missing values using different strategies:
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
     mean_values::Vector{Float64}
-    constant_value::Any
+    constant_value::Union{Number, String}
     
-    function MissingValueTransformer(strategy::String="drop", constant_value::Any=nothing)
+    function MissingValueTransformer(strategy::String="drop", constant_value::Union{Number, String}=0)
         if !(strategy in ["drop", "mean", "constant"])
             throw(ArgumentError("Unknown strategy: $strategy. Supported strategies are: 'drop', 'mean', 'constant'"))
         end
-        if strategy == "constant" && constant_value === nothing
+        if strategy == "constant" && constant_value === 0 && !isa(constant_value, String)
             throw(ArgumentError("constant_value must be provided when using 'constant' strategy"))
         end
         new(strategy, Float64[], constant_value)
