@@ -1,3 +1,13 @@
+"""
+    DictVectorizer
+
+A vectorizer that converts dictionaries of features into a matrix representation.
+
+# Examples
+```julia
+vectorizer = DictVectorizer()
+```
+"""
 mutable struct DictVectorizer <: BaseRawExtractor
     feature_names::Vector{String}
 

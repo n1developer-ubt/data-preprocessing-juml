@@ -1,3 +1,13 @@
+"""
+    TfidfTransformer
+
+A transformer that converts a matrix of token counts into a TF-IDF representation.
+
+# Examples
+```julia
+transformer = TfidfTransformer()
+```
+"""
 mutable struct TfidfTransformer <: BaseTextExtractor
     idf::Vector{Float64}
 

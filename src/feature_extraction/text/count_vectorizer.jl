@@ -1,3 +1,13 @@
+"""
+    CountVectorizer
+
+A text vectorizer that converts a collection of text documents into a matrix of token counts.
+
+# Examples
+```julia
+vectorizer = CountVectorizer()
+```
+"""
 mutable struct CountVectorizer <: BaseTextExtractor
     vocabulary::Vector{String}
     n_gram_range::Tuple{Int, Int}

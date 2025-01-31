@@ -1,5 +1,13 @@
-# include("text_utils.jl")
-# using .FeatureExtraction: tokenize, generate_ngrams, get_vocabulary, bag_of_words
+"""
+    TfidfVectorizer
+
+A vectorizer that converts text data into a TF-IDF representation by extracting n-grams, computing term frequencies, and applying inverse document frequency scaling.
+
+# Examples
+```julia
+vectorizer = TfidfVectorizer(n_gram_range=(1, 2))
+```
+"""
 
 mutable struct TfidfVectorizer <: BaseTextExtractor
     vocabulary::Vector{String}
