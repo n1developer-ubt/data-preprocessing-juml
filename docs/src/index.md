@@ -17,7 +17,7 @@ First build a pipeline with the transformers you want to use. Then fit the pipel
 ## Example Basic Usage Example
 
 ```julia
-data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+data = [1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing]
 
 pipe = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
 

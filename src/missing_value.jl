@@ -7,17 +7,21 @@ import ..TransformerModule: Transformer, fit!, transform
 """
     MissingValueTransformer(strategy::String="drop", constant_value::Union{Number, String}=0)
 
-Transformer for handling missing values using different strategies:
-- "drop": Remove rows with missing values
-- "mean": Replace with column means
-- "constant": Replace with specified value
+Transformer for handling missing values in data matrices.
 
 # Arguments
-- `strategy::String`: Strategy to handle missing values ("drop", "mean", or "constant")
-- `constant_value::Union{Number, String}`: Value to use when strategy is "constant"
+- `strategy::String`: Strategy to handle missing values:
+    - "drop": Remove rows containing any missing values
+    - "mean": Replace missing values with column means (numeric data only)
+    - "constant": Replace missing values with a specified constant value
+- `constant_value::Union{Number, String}=0`: Value to use when strategy is "constant"
 
 # Returns
-- `MissingValueTransformer`: A transformer object with the specified strategy and constant value
+- `MissingValueTransformer`: A transformer object for handling missing values
+
+# Throws
+- `ArgumentError`: If strategy is not one of ["drop", "mean", "constant"]
+- `ArgumentError`: If strategy is "constant" but no valid constant_value is provided
 """
 mutable struct MissingValueTransformer <: Transformer
     strategy::String
@@ -37,18 +41,22 @@ end
 
 
 """
-    fit!(transformer::MissingValueTransformer, X::Matrix{Any})
+    fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, <:Number}})
 
-Fit the transformer to the input data. Updates the transformer's internal state.
+Fit the transformer to the input data by computing necessary statistics (e.g., column means).
 
 # Arguments
-- `transformer::MissingValueTransformer`: The transformer to fit.
-- `X::Matrix{Any}`: Input data matrix.
+- `transformer::MissingValueTransformer`: The transformer to fit
+- `X::Matrix{Union{Missing, Float64}}`: Input data matrix
 
 # Returns
-The updated transformer.
+- `MissingValueTransformer`: The fitted transformer
+
+# Notes
+- For "mean" strategy: Computes and stores column means, ignoring missing values
+- For "drop" and "constant" strategies: No fitting required
 """
-function fit!(transformer::MissingValueTransformer, X::Matrix{<:Any})
+function fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, Float64}})
     if transformer.strategy == "mean"
         transformer.mean_values = vec([calculate_mean(col) for col in eachcol(X)])
     end
@@ -56,19 +64,35 @@ function fit!(transformer::MissingValueTransformer, X::Matrix{<:Any})
 end
 
 
-"""
-    transform(transformer::MissingValueTransformer, X::Matrix{Any})
+function fit!(transformer::MissingValueTransformer, X::Matrix{Union{Missing, String}})
+    if transformer.strategy == "mean"
+        throw(ArgumentError("Mean strategy is not supported for string data"))
+    end
+    return transformer
+end
 
-Transform the input data by handling missing values according to the chosen strategy.
+
+"""
+    transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, <:Number}})
+
+Transform the input data by handling missing values according to the fitted strategy.
 
 # Arguments
 - `transformer::MissingValueTransformer`: The fitted transformer
-- `X::Matrix{Any}`: Input data matrix with potential missing values
+- `X::Matrix{Union{Missing, Float64}}`: Input data matrix with potential missing values
 
 # Returns
-- Transformed matrix with missing values handled according to the strategy
+- `Matrix{Float64}`: Transformed matrix with missing values handled according to the strategy
+    - Empty input returns empty output
+    - Output is converted to Float64 for numeric input
+    - Output is converted to String for string input
+
+# Notes
+- "drop" strategy: Returns matrix with fewer rows if missing values are present
+- "mean" strategy: Uses column means computed during fit
+- "constant" strategy: Uses the specified constant_value
 """
-function transform(transformer::MissingValueTransformer, X::Matrix{<:Any})
+function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, Float64}})
     if isempty(X)
         return X
     end
@@ -102,13 +126,33 @@ function transform(transformer::MissingValueTransformer, X::Matrix{<:Any})
     end
 
     # === CAST STEP ===
-    # Attempt to cast the entire matrix to Float64 if all elements are numbers;
-    # otherwise cast to String.
     if all(x -> x isa Number, transformed)
         return Matrix{Float64}(map(Float64, transformed))
     else
         return Matrix{String}(map(string, transformed))
     end
+end
+
+function transform(transformer::MissingValueTransformer, X::Matrix{Union{Missing, String}})
+    if isempty(X)
+        return X
+    end
+    
+    transformed = if transformer.strategy == "drop"
+        valid_rows = .!vec(any(ismissing, X, dims=2))
+        X[valid_rows, :]
+    elseif transformer.strategy == "constant"
+        result = copy(X)
+        for col in eachcol(result)
+            missing_mask = ismissing.(col)
+            if any(missing_mask)
+                col[missing_mask] .= transformer.constant_value
+            end
+        end
+        result
+    end
+    
+    return Matrix{String}(map(string, transformed))
 end
 
 
@@ -121,7 +165,13 @@ Calculate the mean of a column, ignoring missing values.
 - `col`: Column of data that may contain missing values
 
 # Returns
-- Mean value of non-missing elements, or 0.0 if all elements are missing
+- `Float64`: Mean value of non-missing elements
+    - Returns 0.0 if all elements are missing
+    - Returns 0.0 if column is empty
+
+# Notes
+- Missing values are filtered out before calculation
+- Uses standard arithmetic mean for computation
 """
 function calculate_mean(col)
     values = filter(!ismissing, col)

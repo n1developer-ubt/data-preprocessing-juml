@@ -2,7 +2,7 @@
 
     @testset "Test Getting Started" begin
 
-        data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+        data = [1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing]
 
         # first pipeline to handle missing values
         pipeline = make_pipeline("missing_handler" => MissingValueTransformer("constant", 5.0))
@@ -147,7 +147,7 @@ end
 @testset "Pipeline fit_transform! Tests" begin
     @testset "Matrix Input" begin
         # Test data with missing values
-        data = Matrix{Any}([1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing])
+        data = [1.0 missing 3.0; 4.0 5.0 6.0; 7.0 8.0 missing]
         
         # Create pipeline with missing value handler
         pipeline = make_pipeline("missing_handler" => MissingValueTransformer("mean"))
