@@ -58,7 +58,10 @@ OneHotEncoder()
 StandardNormalizer()
 
 # Feature Extraction Transformer
-FeatureExtractionTransformer("bow") # strategies: "bow" (Bag-of-words), "pca" (Principal Component Analysis) 
+DictVectorizer()
+CountVectorizer()
+TfidfTransformer()
+TfidfVectorizer()
 ```
 
 ## Create Custom Transformers

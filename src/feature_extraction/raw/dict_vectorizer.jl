@@ -96,7 +96,7 @@ function transform(dv::DictVectorizer, dicts::AbstractArray) # dicts::Vector{Dic
         end
     end
 
-    return X  # Stellt sicher, dass X eine (n_samples, n_features) Matrix bleibt
+    return X 
 end
 
 
