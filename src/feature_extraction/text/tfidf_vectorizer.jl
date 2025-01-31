@@ -8,7 +8,6 @@ A vectorizer that converts text data into a TF-IDF representation by extracting 
 vectorizer = TfidfVectorizer(n_gram_range=(1, 2))
 ```
 """
-
 mutable struct TfidfVectorizer <: BaseTextExtractor
     vocabulary::Vector{String}
     idf::Vector{Float64}
