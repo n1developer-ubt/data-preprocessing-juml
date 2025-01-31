@@ -19,7 +19,7 @@ This package is meant for building robust data preprocessing pipelines. It strea
 The `PipelineModule` enables chaining of data transformation and modeling steps into a unified workflow. It ensures consistent and sequential application of a variety of preprocessing steps, simplifying the process of fitting and transforming of datasets.
 
 ### Feature Extraction
-The `FeatureExtraction` module provides tools for converting raw data into structured formats suitable for analysis. It includes utilities for vectorization, dimensionality reduction, polynomial feature generation, and scaling to extract meaningful representations from raw datasets.
+The `FeatureExtraction` module provides tools for transforming raw text and tabular data into structured representations. It includes methods for text vectorization, n-gram generation, and bag-of-words modeling, as well as feature extraction techniques for numerical and categorical data. It enables an efficient extraction of features from textual and categorical data, making them suitable for machine learning and statistical analysis.
 
 ### Preprocessing
 The `Preprocessing` module offers a suite of transformations to prepare data for analysis, including scaling, normalization, encoding categorical variables, and binarization. These tools ensure data is clean and standardized, ready for modeling.
