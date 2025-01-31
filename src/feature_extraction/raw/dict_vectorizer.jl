@@ -3,6 +3,9 @@
 
 A vectorizer that converts dictionaries of features into a matrix representation.
 
+# Fields
+- `feature_names::Vector{String}`: The list of feature names extracted from the input dictionaries.
+
 # Examples
 ```julia
 vectorizer = DictVectorizer()
@@ -76,46 +79,6 @@ Transforms the given dictionaries into a numerical feature matrix.
 # Returns
 - `Matrix{Float64}`: The transformed feature matrix.
 """
-# function transform(dv::DictVectorizer, dicts::Vector{Dict{String, Any}})
-#     n_samples = length(dicts)
-#     n_features = length(dv.feature_names)
-
-#     X = zeros(Float64, n_samples, n_features)
-
-#     sample_index = 1
-#     for dict in dicts
-#         feature_index = 1
-#         for (key, value) in dict
-#             feature_key = ""
-
-#             if value isa String
-#                 feature_key = key * "=" * value
-#             else
-#                 feature_key = key
-#             end
-
-#             found_index = 0
-#             for (j, feature_name) in enumerate(dv.feature_names)
-#                 if feature_name == feature_key
-#                     found_index = j
-#                     break
-#                 end
-#             end
-
-#             if found_index > 0
-#                 if value isa Number
-#                     X[sample_index, found_index] = value
-#                 else
-#                     X[sample_index, found_index] = 1.0
-#                 end
-#             end
-#         end
-#         sample_index += 1
-#     end
-
-#     return X
-# end
-
 function transform(dv::DictVectorizer, dicts::AbstractArray) # dicts::Vector{Dict{String, Any}})
     n_samples = length(dicts)
     n_features = length(dv.feature_names)

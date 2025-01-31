@@ -3,6 +3,10 @@
 
 A text vectorizer that converts a collection of text documents into a matrix of token counts.
 
+# Fields
+- `vocabulary::Vector{String}`: The learned vocabulary extracted from the input text data.
+- `n_gram_range::Tuple{Int, Int}`: The range of n-grams to extract from the text.
+
 # Examples
 ```julia
 vectorizer = CountVectorizer()

@@ -177,9 +177,6 @@
 
                 @test isempty(cv.vocabulary)
 
-                # X = transform(cv, Vector{String}([]))
-                # @test size(X) == (0, 0)
-
                 X = transform(cv, text_data)
                 @test size(X) == (3, 0)  # Nothing learned
             end
@@ -206,35 +203,15 @@
                 0  1  3  0
                 1  0  0  4
             ])
-            
-            """X_bow = [
-                1.0  2.0  0.0  0.0
-                0.0  1.0  3.0  0.0
-                1.0  0.0  0.0  4.0
-            ]"""
         
             @testset "Fitting IDF Values" begin
                 tfidf = TfidfTransformer()
                 fit!(tfidf, X_bow)
                 expected_idf = vec(log.((3 .+ 1) ./ (sum(X_bow .> 0, dims=1) .+ 1)) .+ 1)
                 
-                @test size(tfidf.idf, 1) == size(X_bow, 2)  # (1, size(X_bow, 2))
+                @test size(tfidf.idf, 1) == size(X_bow, 2) 
                 @test tfidf.idf ≈ expected_idf
             end
-        
-            # @testset "TF-IDF Transformation" begin
-            #     tfidf = TfidfTransformer()
-            #     fit!(tfidf, X_bow)
-            #     X_tfidf = transform(tfidf, X_bow)
-        
-            #     # Expected result
-            #     tf = X_bow ./ sum(X_bow, dims=2)
-            #     expected_tfidf = tf .* tfidf.idf
-            #     println("TFIDF: ", size(X_tfidf))
-            #     println("Expected: ", size(expected_tfidf))
-            #     @test size(X_tfidf) == size(X_bow)
-            #     @test X_tfidf ≈ expected_tfidf
-            # end
         
             @testset "Fit and Transform Consistency" begin
                 tfidf1 = TfidfTransformer()
@@ -330,7 +307,6 @@
                 
                 X_tfidf = transform(tv, unseen_text)
                 @test size(X_tfidf) == (1, length(tv.vocabulary)) 
-                # @test all(X_tfidf .== 0)
             end
         
             @testset "Bigram Handling" begin
