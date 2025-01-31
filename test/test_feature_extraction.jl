@@ -1,4 +1,3 @@
-# using Test
 # using .FeatureExtraction
 # using .PreprocessingPipeline
 
@@ -32,7 +31,7 @@
             @test X ≈ expected_X
 
             # Handling of unseen keys (should be ignored)
-            new_dicts = Dict{String, Any}[
+            new_dicts::Vector{Dict{String, Any}} = [
                 Dict("city" => "Chicago", "temperature" => 22, "humidity" => 55),
                 Dict("city" => "New York", "wind_speed" => 10)
             ]
@@ -71,9 +70,9 @@
             text = ["Hello, World!", "This is a test.", "Tokenization is fun!"]
             expected_tokens = [["hello", "world"], ["this", "is", "a", "test"], ["tokenization", "is", "fun"]]
     
-            @test tokenize(text) == expected_tokens
+            @test get_tokenize(text) == expected_tokens
             # Empty String
-            @test tokenize([""]) == [[]]
+            @test get_tokenize([""]) == [[]]
         end
     
         @testset "N-gram Generation Tests" begin
@@ -97,7 +96,7 @@
             expected_vocab = ["hello", "julia", "test", "world"]
     
             @test get_vocabulary(tokenized_text) == expected_vocab
-            @test get_vocabulary([]) == []
+            @test get_vocabulary(Vector{Vector{String}}([])) == []
         end
     
         @testset "Bag-of-Words Tests" begin
@@ -106,8 +105,8 @@
             expected_bow = [2, 1, 0, 0]
 
             @test bag_of_words(text, vocabulary) == expected_bow
-            @test bag_of_words([], vocabulary) == [0, 0, 0, 0]
-            @test bag_of_words(text, []) == []
+            @test bag_of_words(Vector{String}([]), vocabulary) == [0, 0, 0, 0]
+            @test bag_of_words(text, Vector{String}([])) == []
         end
     end
 end

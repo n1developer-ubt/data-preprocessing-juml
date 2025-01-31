@@ -1,3 +1,6 @@
+# include("text_utils.jl")
+# using .FeatureExtraction: tokenize, generate_ngrams, get_vocabulary, bag_of_words
+
 mutable struct TfidfTransformer <: BaseTextExtractor
     idf::Vector{Float64}
 

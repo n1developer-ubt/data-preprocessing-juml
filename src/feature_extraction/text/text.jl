@@ -2,6 +2,5 @@ import ...TransformerModule: Transformer, fit!, transform, inverse_transform, fi
 
 include("base_text_extractor.jl")
 include("count_vectorizer.jl")
-include("text_utils.jl")
 include("tfidf_transformer.jl")
 include("tfidf_vectorizer.jl")
