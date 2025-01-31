@@ -33,18 +33,18 @@ function generate_ngrams(text_data::Vector{String}, n::Int)
     if n < 1
         error("n must be >= 1")
     end
-    ngram_list = Vector{Vector{String}}()  # Leere Liste für jedes Dokument
+    ngram_list = Vector{Vector{String}}() 
 
     for token in get_tokenized
         if length(token) < n
-            push!(ngram_list, token)  # Falls das Token zu kurz ist, übernehme es direkt
+            push!(ngram_list, token) 
         else
             ngrams = [join(token[i:i+n-1], " ") for i in 1:(length(token) - n + 1)]
-            push!(ngram_list, ngrams)  # Speichere die N-Gramme für dieses Dokument
+            push!(ngram_list, ngrams)
         end
     end
 
-    return ngram_list  # Jedes Dokument bleibt in seiner eigenen Liste
+    return ngram_list 
 end
 
 

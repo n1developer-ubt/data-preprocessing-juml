@@ -28,7 +28,7 @@ function fit!(tv::TfidfVectorizer, text_data::Vector{String})
     bow_matrix = hcat([bag_of_words(token, tv.vocabulary) for token in text_tokens]...)'
     doc_count = size(bow_matrix, 1)
     df = sum(bow_matrix .> 0, dims=1)
-    tv.idf = log.((doc_count .+ 1) ./ (df .+ 1)) .+ 1  # Formula from scikit-learn 
+    tv.idf = vec(log.((doc_count .+ 1) ./ (df .+ 1)) .+ 1)  # Formula from scikit-learn 
 
     return tv
 end
@@ -50,7 +50,7 @@ function transform(tv::TfidfVectorizer, text_data::Vector{String})
     bow_matrix = hcat([bag_of_words(token, tv.vocabulary) for token in text_tokens]...)'
     
     tf = bow_matrix ./ sum(bow_matrix, dims=2)
-    tfidf_matrix = tf .* tv.idf
+    tfidf_matrix = tf .* tv.idf'
 
     return tfidf_matrix
 end

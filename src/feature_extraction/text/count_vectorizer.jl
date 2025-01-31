@@ -1,6 +1,3 @@
-# include("text_utils.jl")
-# using .FeatureExtraction: tokenize, generate_ngrams, get_vocabulary, bag_of_words
-
 mutable struct CountVectorizer <: BaseTextExtractor
     vocabulary::Vector{String}
     n_gram_range::Tuple{Int, Int}

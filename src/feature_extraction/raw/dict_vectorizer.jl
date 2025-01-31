@@ -106,11 +106,10 @@ Transforms the given dictionaries into a numerical feature matrix.
 #     return X
 # end
 
-function transform(dv::DictVectorizer, dicts::AbstractArray)#dicts::Vector{Dict{String, Any}})
+function transform(dv::DictVectorizer, dicts::AbstractArray) # dicts::Vector{Dict{String, Any}})
     n_samples = length(dicts)
     n_features = length(dv.feature_names)
 
-    # Erstelle eine 2D-Matrix mit korrekten Dimensionen
     X = zeros(Float64, n_samples, n_features)
 
     for (i, dict) in enumerate(dicts)

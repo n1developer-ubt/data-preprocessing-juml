@@ -9,7 +9,6 @@ using OrderedCollections: OrderedDict
 # import required modules
 include("Transformer.jl")
 include("feature_extraction/feature_extraction.jl")
-# include("feature_extraction/text/text_utils.jl")
 include("missing_value.jl")
 include("preprocessing/preprocessing.jl")
 include("pipeline.jl")
