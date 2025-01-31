@@ -3,6 +3,9 @@
 
 A transformer that converts a matrix of token counts into a TF-IDF representation.
 
+# Fields
+- `idf::Vector{Float64}`: The inverse document frequency (IDF) values computed during fitting.
+
 # Examples
 ```julia
 transformer = TfidfTransformer()
