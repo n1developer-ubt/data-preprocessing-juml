@@ -3,6 +3,11 @@
 
 A vectorizer that converts text data into a TF-IDF representation by extracting n-grams, computing term frequencies, and applying inverse document frequency scaling.
 
+# Fields
+- `vocabulary::Vector{String}`: The learned vocabulary extracted from the input text data.
+- `idf::Vector{Float64}`: The inverse document frequency values for each term in the vocabulary.
+- `n_gram_range::Tuple{Int, Int}`: The range of n-grams to extract from the text.
+
 # Examples
 ```julia
 vectorizer = TfidfVectorizer(n_gram_range=(1, 2))
